@@ -30,20 +30,20 @@ let cameraMatrix = [1, 0, 0, 0,
                     0, 1, 0, 0,
                     0, 0, 1, 0,
                     0, 0, 0, 1];
-export function updateCameraMatrix(m) {
+function updateCameraMatrix(m) {
     cameraMatrix = m;
 }
 
 let gl = null;
 let program = null;
-export function getContext() {
+function getContext() {
     return {
         gl,
         program
     };
 }
 
-export async function startSplatViewer() {
+async function startSplatViewer() {
     const params = new URLSearchParams(location.search);
     // const url = new URL(
     //     // "nike.splat",
@@ -268,13 +268,13 @@ export async function startSplatViewer() {
         gl.uniform1f(u_time, uTime);
 
         if (vertexCount > 0) {
-            document.getElementById("spinner").style.display = "none";
+            // document.getElementById("spinner").style.display = "none";
             gl.uniformMatrix4fv(u_view, false, actualViewMatrix);
             gl.clear(gl.COLOR_BUFFER_BIT);
             gl.drawArraysInstanced(gl.TRIANGLE_FAN, 0, 4, vertexCount);
         } else {
             gl.clear(gl.COLOR_BUFFER_BIT);
-            document.getElementById("spinner").style.display = "";
+            // document.getElementById("spinner").style.display = "";
             start = Date.now() + 2000;
         }
         const progress = (100 * vertexCount) / (splatData.length / rowLength);
@@ -364,4 +364,10 @@ export async function startSplatViewer() {
             buffer: splatData.buffer,
             vertexCount: Math.floor(bytesRead / rowLength),
         });
+}
+
+export default {
+    getContext,
+    updateCameraMatrix,
+    startSplatViewer,
 }

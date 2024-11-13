@@ -1,45 +1,65 @@
 import * as THREE from 'three';
-import { OrbitControls } from "three/addons";
-import { startSplatViewer, updateCameraMatrix, getContext } from "./src/Splatting.js";
+import Constants from './src/constants.js';
 import { remapCurveEaseOut2, mix, clamp } from './src/mathUtils.js';
+import Scene from './src/scene.js';
+import Intersects from "./src/intersects.js";
+import SplatViewer from "./src/splatting/Splatting.js";
+import DoraViewer from "./src/dora/init.js";
+import ComicBookViewer from "./src/comicBook/init.js";
 
-let camera, scene, renderer;
-let geometry, material, mesh;
-let controls;
+
+let camera, scene, renderer, controls;
+let pointer, raycaster;
 
 function setupEventListeners() {
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
+    // window.addEventListener('resize', () => {
+    //     camera.aspect = window.innerWidth / window.innerHeight;
+    //     camera.updateProjectionMatrix();
+    //
+    //     renderer.setSize( window.innerWidth, window.innerHeight );
+    // })
+    //
+    // document.addEventListener('keydown', (e) => {
+    //     if (e.key === 'f') {
+    //         let position = camera.position;
+    //         let target = controls.target;
+    //         console.log(position, target);
+    //         console.log(Scene.getCameraAngleAndDistance(position, target));
+    //     }
+    // })
 
-        renderer.setSize( window.innerWidth, window.innerHeight );
-    })
+    document.addEventListener('pointermove', (e) => {
+        pointer.x = ( e.clientX / window.innerWidth ) * 2 - 1;
+        pointer.y = - ( e.clientY / window.innerHeight ) * 2 + 1;
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'f') {
-            let position = camera.position;
-            let target = controls.target;
-            console.log(position, target);
-            console.log(getCameraAngleAndDistance(position, target));
+        raycaster.setFromCamera( pointer, camera );
+        let intersects = raycaster.intersectObjects( Intersects.getObjs() );
+        if (intersects.length === 0) {
+            Intersects.intersectedLabel = '';
+            return;
         }
+        Intersects.intersectedLabel = intersects[0].object.userData.label;
+
     })
 
     let tStart = 0;
     let tEnd = 1;
     let t = tStart;
     document.addEventListener('wheel', (e) => {
+        return;
+        // todo Steve: temporarily commented out
         // console.log(e.deltaY);
         let actualT = remapCurveEaseOut2(t, tStart, tEnd, 0, 1, 2);
-        let azimuthalAngle = mix(azimuthalAngleStart, azimuthalAngleEnd, actualT);
-        let polarAngle = mix(polarAngleStart, polarAngleEnd, actualT);
-        let cameraTargetDistance = mix(cameraTargetDistanceStart, cameraTargetDistanceEnd, actualT);
-        let camTargetPos = new THREE.Vector3().lerpVectors(camTargetPosStart, camTargetPosEnd, actualT);
-        let camPos = getCameraPosition(azimuthalAngle, polarAngle, cameraTargetDistance, camTargetPos);
+        let azimuthalAngle = mix(Constants.azimuthalAngleStart, Constants.azimuthalAngleEnd, actualT);
+        let polarAngle = mix(Constants.polarAngleStart, Constants.polarAngleEnd, actualT);
+        let cameraTargetDistance = mix(Constants.cameraTargetDistanceStart, Constants.cameraTargetDistanceEnd, actualT);
+        let camTargetPos = new THREE.Vector3().lerpVectors(Constants.camTargetPosStart, Constants.camTargetPosEnd, actualT);
+        let camPos = Scene.getCameraPosition(azimuthalAngle, polarAngle, cameraTargetDistance, camTargetPos);
 
         // update camera position
-        updateCameraAndControls(camPos, camTargetPos);
+        Scene.updateCameraAndControls(camPos, camTargetPos);
         // update gl uAnimateTime
-        let {gl, program} = getContext();
+        let {gl, program} = SplatViewer.getContext();
         if (gl !== null && program !== null) {
             // console.log(t)
             gl.uniform1f(gl.getUniformLocation(program, "uAnimateTime"), t);
@@ -50,109 +70,42 @@ function setupEventListeners() {
     })
 }
 
-// {distance: 2.18548886703139, polarAngle: 1.109906013934148, azimuthalAngle: 0.7605214144197971}
-let camTargetPosStart = new THREE.Vector3(0, 0, 0);
-let camTargetPosEnd = new THREE.Vector3(-0.08, 0, 0.5);
-let azimuthalAngleStart = -0.7605214144197971;
-let azimuthalAngleEnd = -Math.PI;
-let polarAngleStart = 1.109906013934148;
-let polarAngleEnd = 0.8;
-let cameraTargetDistanceStart = 2.18548886703139;
-let cameraTargetDistanceEnd = 0.01;
-
-function getCameraPosition(azimuthalAngle, polarAngle, distance, target) {
-    const x = distance * Math.sin(polarAngle) * Math.sin(azimuthalAngle);
-    const y = distance * Math.cos(polarAngle);
-    const z = distance * Math.sin(polarAngle) * Math.cos(azimuthalAngle);
-
-    return new THREE.Vector3(
-        target.x + x,
-        target.y + y,
-        target.z + z
-    );
-}
-let camPosStart = getCameraPosition(azimuthalAngleStart, polarAngleStart, cameraTargetDistanceStart, camTargetPosStart);
-
-function updateCameraAndControls(position, targetPosition) {
-    camera.position.copy(position);
-    camera.lookAt(targetPosition);
-}
-
-function getCameraAngleAndDistance(position, target) { // return azimuthal & polar angles, and distance
-    let v = new THREE.Vector3().subVectors(position, target);
-    let distance = v.length();
-    let polarAngle = Math.acos(v.y / distance);
-    let azimuthalAngle = Math.acos(v.z / (distance * Math.sin(polarAngle)));
-    return {
-        distance,
-        polarAngle,
-        azimuthalAngle
-    };
-}
-
 function init() {
-    // renderer
-    renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true,
-    });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    let canvas_parent_div = document.querySelector('#canvas-container');
-    canvas_parent_div.style.position = 'absolute';
-    canvas_parent_div.style.zIndex = '2';
-    canvas_parent_div.appendChild(renderer.domElement);
 
-    // scene
-    scene = new THREE.Scene();
+    Scene.initScene();
+    // console.log(Scene.getInternals());
 
-    // camera
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 1000);
-    camera.position.copy(camPosStart);
-    camera.lookAt(camTargetPosStart);
-    // camera.position.set(2, 2, 2);
-    // camera.lookAt(0, 0, 0);
-    camera.updateMatrixWorld(true);
-
-    // lighting
-    const light = new THREE.AmbientLight(0x404040, 10);
-    scene.add(light);
-    const light2 = new THREE.PointLight(0x404040, 1000, 100);
-    light2.position.set(1, 2.5, 5);
-    scene.add(light2);
-
-    // mesh
-    let meshSize = 0.1;
-    geometry = new THREE.BoxGeometry(meshSize, meshSize, meshSize);
-    material = new THREE.MeshStandardMaterial({color: 0x0000ff});
-    mesh = new THREE.Mesh(geometry, material);
-    mesh.position.copy(camTargetPosEnd);
-    // scene.add(mesh);
-
-    // scene.add(new THREE.AxesHelper());
+    let internals = Scene.getInternals();
+    camera = internals.camera;
+    scene = internals.scene;
+    renderer = internals.renderer;
+    controls = internals.controls;
+    pointer = internals.pointer;
+    raycaster = internals.raycaster;
 
     // start splat viewer
-    startSplatViewer().catch((err) => {
-        document.getElementById("spinner").style.display = "none";
-        console.log(err);
-    });
+    // todo Steve: temporarily commented out
+    // SplatViewer.startSplatViewer().catch((err) => {
+    //     document.getElementById("spinner").style.display = "none";
+    //     console.log(err);
+    // });
 
-    // orbit control
-    controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableZoom = false;
+    // prepare to get into the 2nd phase ---> showcase a list of scrollable 3d projects
+    // let camPos = new THREE.Vector3(0, 0, 2);
+    // let camTargetPos = new THREE.Vector3(0, 0, 0);
+    // Scene.updateCameraAndControls(camPos, camTargetPos);
+
+    // test out the next interaction
+    // first bring the camera back to where it was
+    // DoraViewer.startDoraViewer();
+
+    // ComicBookViewer.startComicBook();
+
+
 
     setupEventListeners();
 }
 
-function animate() {
-    requestAnimationFrame(animate);
-
-    camera.updateMatrixWorld(true);
-    let m = camera.matrixWorld.clone().elements;
-    updateCameraMatrix(m);
-
-    renderer.render(scene, camera);
-
+window.onload = function() {
+    init();
 }
-
-init();
-animate();

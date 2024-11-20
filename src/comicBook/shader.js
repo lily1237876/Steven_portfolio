@@ -1,4 +1,9 @@
+import {mathUtilShader} from "../mathUtils.js";
+
 const commonShader = `
+
+    ${mathUtilShader}
+    
     mat4 identity() {
         return mat4(
             1., 0., 0., 0.,
@@ -25,14 +30,6 @@ const commonShader = `
             }
         }
         return res;
-    }
-    
-    float remap01(float x, float low, float high) {
-        return clamp((x - low) / (high - low), 0., 1.);
-    }
-            
-    float remap(float x, float lowIn, float highIn, float lowOut, float highOut) {
-        return mix(lowOut, highOut, remap01(x, lowIn, highIn));
     }
 `;
 

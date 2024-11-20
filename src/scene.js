@@ -81,7 +81,18 @@ function initScene() {
     // todo Steve: temporarily commented out
     // controls.enableZoom = false;
 
+    setupEventListeners();
+
     animate();
+}
+
+function setupEventListeners() {
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize( window.innerWidth, window.innerHeight );
+    })
 }
 
 function animate() {

@@ -71,7 +71,7 @@ export function remapCurveEaseIn1(x, lowIn, highIn, lowOut, highOut, a = 2) {
 
 export function remap01CurveEaseIn2(x, low, high, a = 6) {
     let r = remap01(x, low, high);
-    return -Math.pow(r - 1, a) + 1;
+    return Math.pow(r, a);
 }
 export function remapCurveEaseIn2(x, lowIn, highIn, lowOut, highOut, a = 6) {
     return mix(lowOut, highOut, remap01CurveEaseIn2(x, lowIn, highIn, a));
@@ -121,11 +121,40 @@ export function parabola(x, m) {
 }
 
 export const mathUtilShader = `
-    float Remap01 (float x, float low, float high) {
+    float remap01(float x, float low, float high) {
         return clamp((x - low) / (high - low), 0., 1.);
     }
-
-    float Remap (float x, float lowIn, float highIn, float lowOut, float highOut) {
-        return mix(lowOut, highOut, Remap01(x, lowIn, highIn));
+    
+    float remap(float x, float lowIn, float highIn, float lowOut, float highOut) {
+        return mix(lowOut, highOut, remap01(x, lowIn, highIn));
+    }
+    
+    float remap01CurveEaseIn2(float x, float low, float high, float a) {
+        float r = remap01(x, low, high);
+        return pow(r, a);
+    }
+    
+    float remapCurveEaseIn2(float x, float lowIn, float highIn, float lowOut, float highOut, float a) {
+        return mix(lowOut, highOut, remap01CurveEaseIn2(x, lowIn, highIn, a));
+    }
+    
+    float remap01CurveEaseIn2Reverse(float x, float low, float high, float a) {
+        float r = remap01(x, low, high);
+        return pow(1. - r, a);
+    }
+    
+    float remapCurveEaseIn2Reverse(float x, float lowIn, float highIn, float lowOut, float highOut, float a) {
+        return mix(lowOut, highOut, remap01CurveEaseIn2Reverse(x, lowIn, highIn, a));
+    }
+    
+    float parabola( float x, float k )
+    {
+        x = remap01(x, 0., 1.);
+        return pow( 4.0*x*(1.0-x), k );
+    }
+    
+    float parabolaReverse( float x, float k )
+    {
+        return 1. - parabola(x, k);
     }
 `;

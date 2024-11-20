@@ -6,18 +6,13 @@ import Intersects from "./src/intersects.js";
 import SplatViewer from "./src/splatting/Splatting.js";
 import DoraViewer from "./src/dora/init.js";
 import ComicBookViewer from "./src/comicBook/init.js";
+import ClothViewer from "./src/cloth/init.js";
 
 
 let camera, scene, renderer, controls;
 let pointer, raycaster;
 
 function setupEventListeners() {
-    // window.addEventListener('resize', () => {
-    //     camera.aspect = window.innerWidth / window.innerHeight;
-    //     camera.updateProjectionMatrix();
-    //
-    //     renderer.setSize( window.innerWidth, window.innerHeight );
-    // })
     //
     // document.addEventListener('keydown', (e) => {
     //     if (e.key === 'f') {
@@ -91,9 +86,9 @@ function init() {
     // });
 
     // prepare to get into the 2nd phase ---> showcase a list of scrollable 3d projects
-    // let camPos = new THREE.Vector3(0, 0, 2);
-    // let camTargetPos = new THREE.Vector3(0, 0, 0);
-    // Scene.updateCameraAndControls(camPos, camTargetPos);
+    let camPos = new THREE.Vector3(0, 0, 2);
+    let camTargetPos = new THREE.Vector3(0, 0, 0);
+    Scene.updateCameraAndControls(camPos, camTargetPos);
 
     // test out the next interaction
     // first bring the camera back to where it was
@@ -101,7 +96,7 @@ function init() {
 
     // ComicBookViewer.startComicBook();
 
-
+    ClothViewer.startCloth();
 
     setupEventListeners();
 }

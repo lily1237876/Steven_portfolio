@@ -38,11 +38,13 @@ const fsBoundingBoxSource = `
 `;
 
 export class BoundingBox {
-    constructor(size, center = new THREE.Vector3(), title = 'Empty Title', description = 'Empty Description') {
+    constructor(size, center = new THREE.Vector3(), h1 = '', h2 = '', d1 = '', d2 = '') {
         this.size = size;
         this.center = center;
-        this.title = title;
-        this.description = description;
+        this.h1 = h1; // big title
+        this.h2 = h2; // small title
+        this.d1 = d1; // big description
+        this.d2 = d2; // small description
 
         this.boxMesh = null;
         this.textObjs = new THREE.Group();
@@ -58,24 +60,35 @@ export class BoundingBox {
 
     add3DTitle() {
         let titleDiv = document.createElement('div');
-        titleDiv.style.display = 'flex';
-        titleDiv.style.flexDirection = 'row';
 
-        let d1 = document.createElement('div');
-        d1.innerHTML = this.title;
-        d1.style.transform = 'translate(50%, -150%)';
-        d1.style.fontSize = '1.5rem';
-        titleDiv.appendChild(d1);
+        let titleSmallDiv = document.createElement('div');
+        titleSmallDiv.style.display = 'flex';
+        titleSmallDiv.style.flexDirection = 'column';
+        titleSmallDiv.style.gap = '5px';
+        titleSmallDiv.style.transform = 'translate(50%, -50%)';
+        titleSmallDiv.style.width = '30vw';
+        titleSmallDiv.style.paddingBottom = '10px';
+        titleDiv.appendChild(titleSmallDiv);
+
+        let e1 = document.createElement('div');
+        e1.innerHTML = this.h1;
+        e1.style.fontSize = '1.5rem';
+        titleSmallDiv.appendChild(e1);
+
+        let e2 = document.createElement('div');
+        e2.innerHTML = this.h2;
+        e2.style.wordBreak = 'break-word';
+        e2.style.fontSize = '0.8rem';
+        titleSmallDiv.appendChild(e2);
 
         titleDiv.style.color = 'white';
-        titleDiv.style.fontFamily = 'monospace';
         let titleObj = new CSS3DObject(titleDiv);
         titleObj.element.style.pointerEvents = 'none';
 
         let scaleFactor = 0.003;
         titleObj.scale.set(scaleFactor, scaleFactor, scaleFactor);
-
-        let p = new THREE.Vector3(this.center.x - this.size.x / 2, this.center.y + this.size.y / 2, this.center.z + this.size.z / 2);
+        let p = new THREE.Vector3(this.center.x - this.size.x / 2, this.center.y + this.size.y / 2, this.center.z + this.size.z / 4);
+        // let p = new THREE.Vector3(this.center.x - this.size.x / 2, this.center.y + this.size.y / 2, this.center.z + this.size.z / 2);
         titleObj.position.copy(p);
 
         this.textObjs.add(titleObj);
@@ -83,8 +96,6 @@ export class BoundingBox {
 
     add3DDescription() {
         let titleDiv = document.createElement('div');
-        titleDiv.style.display = 'flex';
-        titleDiv.style.flexDirection = 'column';
 
         let titleSmallDiv = document.createElement('div');
         titleSmallDiv.style.display = 'flex';
@@ -95,32 +106,29 @@ export class BoundingBox {
         titleSmallDiv.style.paddingTop = '10px';
         titleDiv.appendChild(titleSmallDiv);
 
-        let d1 = document.createElement('div');
-        d1.innerHTML = this.description;
-        d1.style.fontSize = '1.2rem';
-        titleSmallDiv.appendChild(d1);
+        let e1 = document.createElement('div');
+        e1.innerHTML = this.d1;
+        e1.style.fontSize = '1.1rem';
+        titleSmallDiv.appendChild(e1);
 
-        let d2 = document.createElement('div');
-        d2.innerHTML = 'ewaifjaweiofja ewoifjaweoifjaweofiwa jefoiawejfoawief jaiowefjawo eifjaweoifjaweof';
-        d2.style.wordBreak = 'break-word';
-        d2.style.fontSize = '0.8rem';
-        titleSmallDiv.appendChild(d2);
-
+        let e2 = document.createElement('div');
+        e2.innerHTML = this.d2;
+        e2.style.wordBreak = 'break-word';
+        e2.style.fontSize = '0.6rem';
+        titleSmallDiv.appendChild(e2);
 
         titleDiv.style.color = 'white';
-        titleDiv.style.fontFamily = 'monospace';
         let titleObj = new CSS3DObject(titleDiv);
         titleObj.element.style.pointerEvents = 'none';
         titleObj.element.style.display = 'flex';
 
         let scaleFactor = 0.003;
         titleObj.scale.set(scaleFactor, scaleFactor, scaleFactor);
-
-        let p = new THREE.Vector3(this.center.x - this.size.x / 2, this.center.y - this.size.y / 2, this.center.z + this.size.z / 2);
+        let p = new THREE.Vector3(this.center.x - this.size.x / 2, this.center.y - this.size.y / 2, this.center.z + this.size.z / 4);
+        // let p = new THREE.Vector3(this.center.x - this.size.x / 2, this.center.y - this.size.y / 2, this.center.z + this.size.z / 2);
         titleObj.position.copy(p);
 
         this.textObjs.add(titleObj);
-        console.log(titleObj.element);
     }
 
 
@@ -134,7 +142,7 @@ export class BoundingBox {
             transparent: true,
             uniforms: {
                 uThicknessMultiplier: {value: 3},
-                uSize: {value: 0.1},
+                uSize: {value: 0.075},
             }
         });
         this.boxMesh = new THREE.Mesh(geo, mat);

@@ -82,7 +82,14 @@ function startCloth() {
     Scene.traverseGroupToAddLabel(cloth, CLOTH_LABEL);
     Intersects.add(CLOTH_LABEL, cloth);
 
-    let clothBoundingBox = new BoundingBox(new THREE.Vector3(1, 1, 0.5));
+    let clothBoundingBox = new BoundingBox(
+        new THREE.Vector3(1, 1, 0.5),
+        new THREE.Vector3(),
+        'Interactive Cloth ?!?!',
+        'Various cloth simulation experiments, on CPU and GPU',
+        'Cloth simulation on CPU is easy. But can you do it on GPU? Guess what? Now you\'re looking at one!',
+        ''
+    );
     let clothBoundingBoxMesh = clothBoundingBox.boxMesh;
     let clothBoundingBoxTextObjs = clothBoundingBox.textObjs;
     clothGroup.add(clothBoundingBoxMesh);

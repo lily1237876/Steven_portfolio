@@ -59,7 +59,13 @@ async function loadModels() {
                 doraGroup.add(doraObjs);
                 scene.add(doraGroup);
 
-                let doraBoundingBox = new BoundingBox(new THREE.Vector3(1, 1, 1));
+                let doraBoundingBox = new BoundingBox(
+                    new THREE.Vector3(1, 1, 1),
+                    new THREE.Vector3(),
+                    'Dora\'s Firefly',
+                    'Interactive Experience in Unreal Engine 5',
+                    '“How do we deal with past trauma?”',
+                    'A story about loss & found of inner peace after trauma. Made in UE5 with Niagara particle system, animation system, and blueprints. All 3D objects modeled in Blender.');
                 let doraBoundingBoxMesh = doraBoundingBox.boxMesh;
                 let doraBoundingBoxTextObjs = doraBoundingBox.textObjs;
                 doraGroup.add(doraBoundingBoxMesh);

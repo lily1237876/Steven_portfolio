@@ -115,9 +115,18 @@ async function init() {
 
     // vr game
 
+    // arboretum
+
+    // sketcher 3D
+
     // reer website animated model
 
     // gaussian splatting
+
+    // spatial measurement
+    //  Valentin's linkedin
+    //  poster for MIT Media Lab member's week
+    //  Dava's ACM Siggraph screenshot
 
     let testCube1 = Scene.addTestCube();
     // scene.add(testCube1);

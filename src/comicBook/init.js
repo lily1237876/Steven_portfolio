@@ -87,7 +87,14 @@ async function startComicBook() {
     comicBookGroup.add(comicBookObjs);
 
     let boundingBoxSize = 1.2;
-    let comicBookBoundingBox = new BoundingBox(new THREE.Vector3(boundingBoxSize, boundingBoxSize / 1.5, boundingBoxSize));
+    let comicBookBoundingBox = new BoundingBox(
+        new THREE.Vector3(boundingBoxSize, boundingBoxSize / 1.5, boundingBoxSize),
+        new THREE.Vector3(),
+        'GLSL Comic Book',
+        'Fully procedural comic book shader written in GLSL',
+        '👆Enjoy The Amazing Spiderman🕷️',
+        'I\'ve always wanted to make a fully procedural, scrollable comic book, that captures some realistic page bending physics. So I made just the thing in a span of several nights. Some spicy stuff going on in the vertex shader to calculate accurate page bending.'
+    );
     let comicBookBoundingBoxMesh = comicBookBoundingBox.boxMesh;
     let comicBookBoundingBoxTextObjs = comicBookBoundingBox.textObjs;
     comicBookGroup.add(comicBookBoundingBoxMesh);

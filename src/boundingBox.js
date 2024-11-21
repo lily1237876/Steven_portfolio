@@ -67,6 +67,7 @@ export class BoundingBox {
         titleSmallDiv.style.gap = '5px';
         titleSmallDiv.style.transform = 'translate(50%, -50%)';
         titleSmallDiv.style.width = '30vw';
+        titleSmallDiv.style.maxWidth = '330px';
         titleSmallDiv.style.paddingBottom = '10px';
         titleDiv.appendChild(titleSmallDiv);
 
@@ -103,6 +104,7 @@ export class BoundingBox {
         titleSmallDiv.style.gap = '5px';
         titleSmallDiv.style.transform = 'translate(50%, 50%)';
         titleSmallDiv.style.width = '30vw';
+        titleSmallDiv.style.maxWidth = '330px';
         titleSmallDiv.style.paddingTop = '10px';
         titleDiv.appendChild(titleSmallDiv);
 

@@ -87,8 +87,8 @@ function startCloth() {
         new THREE.Vector3(),
         'Interactive Cloth ?!?!',
         'Various cloth simulation experiments, on CPU and GPU',
-        'Cloth simulation on CPU is easy. But can you do it on GPU? Guess what? Now you\'re looking at one!',
-        ''
+        'Cloth simulation on CPU is easy. But can you do it on GPU? Guess what? Now you\'re looking at one! Move mouse🖱️/finger👆 on the cloth to see effects.',
+        'Cloth simulation can be tough but cool. Once I got the hang of it, I\'ve done several experiments / variations of it: combining it with AI hand detection, shrink-wrapping it around different objects, and computing the volume enclosed.'
     );
     let clothBoundingBoxMesh = clothBoundingBox.boxMesh;
     let clothBoundingBoxTextObjs = clothBoundingBox.textObjs;

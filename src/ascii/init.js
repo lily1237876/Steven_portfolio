@@ -47,7 +47,14 @@ function startAsciiViewer() {
     asciiGroup.add(videoPlane);
 
     // add bounding box
-    let asciiBoundingBox = new BoundingBox(new THREE.Vector3(1, 1, 0.2));
+    let asciiBoundingBox = new BoundingBox(
+        new THREE.Vector3(1, 1, 0.2),
+        new THREE.Vector3(),
+        'Buffer.js',
+        'A retro-inspired ASCII render engine, in pure JavaScript.',
+        'Feeling Nostalgic......',
+        'Computer terminals and game consoles. How cool. I didn\'t know how exactly they work, but at least I made one that looks like \'em. Users can draw or use simple code to control motion graphics, as if they\'re rendered on an 80s monitor.'
+    );
     let asciiBoundingBoxMesh = asciiBoundingBox.boxMesh;
     let asciiBoundingBoxTextObjs = asciiBoundingBox.textObjs;
     asciiGroup.add(asciiBoundingBoxMesh);

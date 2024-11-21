@@ -116,7 +116,7 @@ export class BoundingBox {
         let e2 = document.createElement('div');
         e2.innerHTML = this.d2;
         e2.style.wordBreak = 'break-word';
-        e2.style.fontSize = '0.6rem';
+        e2.style.fontSize = '0.7rem';
         titleSmallDiv.appendChild(e2);
 
         titleDiv.style.color = 'white';

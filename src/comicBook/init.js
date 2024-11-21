@@ -2,8 +2,11 @@ import * as THREE from "three";
 import Scene from "../scene.js";
 import {vsComicBookSource, fsComicBookSource} from "./shader.js";
 import {mix, remap, remapCurveEaseIn2, remapCurveEaseOut2, smoothstep} from "../mathUtils.js";
+import {BoundingBox} from "../boundingBox.js";
 
-let geometry, material, group;
+let geometry, material
+let comicBookObjs;
+let comicBookGroup;
 let loader;
 
 let pageThickness = 0.01;
@@ -17,16 +20,19 @@ let angle = 0;
 let flipPercent = 27;
 
 function changeProgress(progress) {
-    for (let i = 0; i < group.children.length; i++) {
+    for (let i = 0; i < comicBookObjs.children.length; i++) {
         let a = smoothstep(-flipPercent + 100 / pageCount * (i + 1), flipPercent + 100 / pageCount * (i + 1), remap(progress, 0, 100, -flipPercent, 100 + flipPercent)); // here need to remap b/c need to account for the flipPercent values, so that the 1st and last pages are completely closed
         let newAngle = mix(0, Math.PI, a);
-        group.children[i].material.uniforms['rotateAngle'].value = newAngle;
-        group.children[i].material.uniforms['bendAngle'].value = remap(Math.sin(newAngle), 0, 1, 0, maxBendAngle);
+        comicBookObjs.children[i].material.uniforms['rotateAngle'].value = newAngle;
+        comicBookObjs.children[i].material.uniforms['bendAngle'].value = remap(Math.sin(newAngle), 0, 1, 0, maxBendAngle);
     }
 }
 
 async function startComicBook() {
-    let {scene, camera, renderer, controls} = Scene.getInternals();
+    let scene = Scene.getInternals().scene;
+
+    comicBookGroup = new THREE.Group();
+    scene.add(comicBookGroup);
 
     // let camPos = new THREE.Vector3(0, 0, 2);
     // let camTargetPos = new THREE.Vector3(0, 0, 0);
@@ -63,10 +69,10 @@ async function startComicBook() {
             'uDirection': {value: 0},
         },
     });
-    group = new THREE.Group();
-    group.rotation.x = Math.PI / 3;
+    comicBookObjs = new THREE.Group();
+    comicBookObjs.rotation.x = Math.PI / 3;
     let scaleFactor = 0.6;
-    group.scale.set(scaleFactor, scaleFactor, scaleFactor);
+    comicBookObjs.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
     let idx = 1;
     for (let i = -(pageCount - 1) / 2; i <= (pageCount - 1) / 2; i++) {
@@ -76,19 +82,24 @@ async function startComicBook() {
         newMaterial.uniforms['comicTextureFront'].value = await loadTexture(idx++);
         newMaterial.uniforms['comicTextureBack'].value = await loadTexture(idx++);
         let newPage = new THREE.Mesh(newGeometry, newMaterial);
-        group.add(newPage);
+        comicBookObjs.add(newPage);
     }
-    // mesh = new THREE.Mesh(geometry, material);
+    comicBookGroup.add(comicBookObjs);
 
-    // group = new THREE.Group();
-    // group.add(mesh);
-    scene.add(group);
+    let boundingBoxSize = 1.2;
+    let comicBookBoundingBox = new BoundingBox(new THREE.Vector3(boundingBoxSize, boundingBoxSize / 1.5, boundingBoxSize));
+    let comicBookBoundingBoxMesh = comicBookBoundingBox.boxMesh;
+    let comicBookBoundingBoxTextObjs = comicBookBoundingBox.textObjs;
+    comicBookGroup.add(comicBookBoundingBoxMesh);
+    comicBookGroup.add(comicBookBoundingBoxTextObjs);
 
     onFrame();
+
+    return comicBookGroup;
 }
 
 function changeFlipDirection(direction) {
-    for (let child of group.children) {
+    for (let child of comicBookObjs.children) {
         child.material.uniforms['uDirection'].value = direction;
     }
 }

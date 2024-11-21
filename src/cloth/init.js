@@ -1,10 +1,14 @@
 import * as THREE from "three";
 import Scene from "../scene.js";
+import Intersects from "../intersects.js";
 import {fsClothSource, vsClothSource, RIPPLE_COUNT} from "./shader.js";
+import {BoundingBox} from "../boundingBox.js";
 
 let geo, mat, cloth;
 let scene, camera;
 let raycaster;
+
+let CLOTH_LABEL = 'cloth';
 
 let ripples = null;
 function initRipples() {
@@ -25,16 +29,19 @@ function setupEventListeners() {
         e.stopPropagation();
         if (lastTime !== null && performance.now() - lastTime < interval) return; // limit triggering of subsequent functions
 
-        let pointer = new THREE.Vector2((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
-        raycaster.setFromCamera(pointer, camera);
-        let intersects = raycaster.intersectObject(cloth);
-        if (intersects.length === 0) return;
-        if (!cloth) return;
+        // let pointer = new THREE.Vector2((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+        // raycaster.setFromCamera(pointer, camera);
+        // let intersects = raycaster.intersectObject(cloth);
+        // if (intersects.length === 0) return;
+        // if (!cloth) return;
+        if (Intersects.intersectedLabel !== CLOTH_LABEL) return;
+
+        // console.log(Intersects.intersectedObject);
 
         lastTime = performance.now();
 
         cloth.material.uniforms['ripples'].value[rippleIdx].isActive = true;
-        cloth.material.uniforms['ripples'].value[rippleIdx].center = intersects[0].uv;
+        cloth.material.uniforms['ripples'].value[rippleIdx].center = Intersects.intersects[0].uv;
         cloth.material.uniforms['ripples'].value[rippleIdx].time = performance.now() / 1000;
         rippleIdx = (rippleIdx + 1) % RIPPLE_COUNT;
     })
@@ -45,7 +52,10 @@ function startCloth() {
     scene = internals.scene;
     camera = internals.camera;
 
-    geo = new THREE.PlaneGeometry(1.2, 1.2, 200, 200);
+    let clothGroup = new THREE.Group();
+    scene.add(clothGroup);
+
+    geo = new THREE.PlaneGeometry(0.9, 0.9, 100, 100);
     // mat = new THREE.MeshBasicMaterial({
     //     color: 0xffffff,
     //     wireframe: true,
@@ -68,17 +78,21 @@ function startCloth() {
         }
     });
     cloth = new THREE.Mesh(geo, mat);
-    scene.add(cloth);
+    clothGroup.add(cloth);
+    Scene.traverseGroupToAddLabel(cloth, CLOTH_LABEL);
+    Intersects.add(CLOTH_LABEL, cloth);
 
-    let geo2 = new THREE.BoxGeometry(1, 1, 1);
-    let mat2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
-    let mesh2 = new THREE.Mesh(geo2, mat2);
-    mesh2.position.z = -2;
-    // scene.add(mesh2);
+    let clothBoundingBox = new BoundingBox(new THREE.Vector3(1, 1, 0.5));
+    let clothBoundingBoxMesh = clothBoundingBox.boxMesh;
+    let clothBoundingBoxTextObjs = clothBoundingBox.textObjs;
+    clothGroup.add(clothBoundingBoxMesh);
+    clothGroup.add(clothBoundingBoxTextObjs);
 
     setupEventListeners();
 
     onFrame();
+
+    return clothGroup;
 }
 
 let startTime = null;

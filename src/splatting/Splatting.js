@@ -56,7 +56,7 @@ async function startSplatViewer() {
         mode: "cors", // no-cors, *cors, same-origin
         credentials: "omit", // include, *same-origin, omit
     });
-    console.log(req);
+    // console.log(req);
     if (req.status != 200)
         throw new Error(req.status + " Unable to load " + req.url);
 
@@ -66,14 +66,14 @@ async function startSplatViewer() {
 
     const downsample =
         splatData.length / rowLength > 500000 ? 1 : 1 / devicePixelRatio;
-    console.log(splatData.length / rowLength, downsample);
+    // console.log(splatData.length / rowLength, downsample);
 
     const worker = new Worker(new URL('./worker.js', import.meta.url), {
         type: 'module',
     })
-    console.log(worker);
+    // console.log(worker);
 
-    const canvas = document.getElementById("canvas");
+    const canvas = document.getElementById("gs-canvas");
     const fps = document.getElementById("fps");
 
     let projectionMatrix;

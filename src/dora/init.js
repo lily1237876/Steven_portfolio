@@ -3,68 +3,32 @@ import { GLTFLoader } from "three/addons";
 import Scene from "../scene.js";
 import Intersects from "../intersects.js";
 import {clamp, remapCurveEaseIn2, remapCurveEaseOut2} from "../mathUtils.js";
+import {BoundingBox} from "../boundingBox.js";
 
-let scene, camera, renderer, controls;
+let scene;
 let loader;
 
-let group;
+let doraGroup; // for the entire group, including the bounding box
+let doraObjs; // only for the dora object meshes
 let duck, woodenHorse, telephone, fireExtinguisher;
 
 let DORA_LABEL = 'dora';
 let isActive = true;
 
-function startDoraViewer() {
+async function startDoraViewer() {
     loader = new GLTFLoader();
-    let {scene, camera, renderer, controls} = Scene.getInternals();
+    scene = Scene.getInternals().scene;
 
 
     // let camPos = new THREE.Vector3(0, 0, 2);
     // let camTargetPos = new THREE.Vector3(0, 0, 0);
     // Scene.updateCameraAndControls(camPos, camTargetPos);
 
-    let meshSize = 1;
-    let geometry = new THREE.BoxGeometry(meshSize, meshSize, meshSize);
-    let material = new THREE.MeshStandardMaterial({color: 0xffffff});
-    let mesh = new THREE.Mesh(geometry, material);
-    // scene.add(mesh);
-
-    // scene.add(new THREE.AxesHelper());
-
-    // todo Steve: this is useful when multiple objects are in the group, and we raycast onto a child object
-    //  but we need to identify the entire group category
-    function traverseGroupToAddLabel(group, label) {
-        if (group.children.length === 0) {
-            group.userData.label = label;
-            return;
-        }
-        group.userData.label = label;
-        for (let i = 0; i < group.children.length; i++) {
-            traverseGroupToAddLabel(group.children[i], label);
-        }
-    }
-
-    let doraModelPath = `${import.meta.env.BASE_URL}models/dora.glb`;
-    loader.load(
-        doraModelPath,
-        function(gltf) {
-            group = gltf.scene;
-            traverseGroupToAddLabel(group, DORA_LABEL);
-            // group.position.y = -0.4;
-            // console.log(group);
-            Intersects.add(DORA_LABEL, group);
-
-            duck = group.children[0];
-            woodenHorse = group.children[1];
-            telephone = group.children[2];
-            fireExtinguisher = group.children[3];
-
-            let scaleFactor = 1;
-            group.scale.set(scaleFactor, scaleFactor, scaleFactor);
-            scene.add(group);
-        }
-    );
+    await loadModels();
 
     onFrame();
+
+    return doraGroup;
 
     // 3D folders?
     // hover over and they pop up with background changing into corresponding images?
@@ -72,14 +36,49 @@ function startDoraViewer() {
     // https://yuannstudio.com/
 }
 
+async function loadModels() {
+    let doraModelPath = `${import.meta.env.BASE_URL}models/dora.glb`;
+    return new Promise(resolve => {
+        loader.load(
+            doraModelPath,
+            function(gltf) {
+                doraObjs = gltf.scene;
+                // todo Steve: to enable raycasting onto any object / entire doraGroup, and get the intersect information from index.js, add below 2 lines
+                Scene.traverseGroupToAddLabel(doraObjs, DORA_LABEL);
+                Intersects.add(DORA_LABEL, doraObjs);
+
+                duck = doraObjs.children[0];
+                woodenHorse = doraObjs.children[1];
+                telephone = doraObjs.children[2];
+                fireExtinguisher = doraObjs.children[3];
+
+                let scaleFactor = 1;
+                doraObjs.scale.set(scaleFactor, scaleFactor, scaleFactor);
+
+                doraGroup = new THREE.Group();
+                doraGroup.add(doraObjs);
+                scene.add(doraGroup);
+
+                let doraBoundingBox = new BoundingBox(new THREE.Vector3(1, 1, 1));
+                let doraBoundingBoxMesh = doraBoundingBox.boxMesh;
+                let doraBoundingBoxTextObjs = doraBoundingBox.textObjs;
+                doraGroup.add(doraBoundingBoxMesh);
+                doraGroup.add(doraBoundingBoxTextObjs);
+
+                resolve();
+            }
+        );
+    })
+}
+
 
 let tLow = 1;
-let tHigh = 1.5;
+let tHigh = 1.3;
 let t = 0;
 let tSpeed = 0.02;
 function onFrame() {
     requestAnimationFrame(onFrame);
-    if (!group) return;
+    if (!doraObjs) return;
     if (!isActive) return;
     let actualT;
     if (Intersects.intersectedLabel === DORA_LABEL) {
@@ -91,7 +90,7 @@ function onFrame() {
         t = clamp(t, tLow, tHigh);
         actualT = remapCurveEaseIn2(t, tLow, tHigh, tLow, tHigh, 2);
     }
-    group.scale.set(actualT, actualT, actualT);
+    doraObjs.scale.set(actualT, actualT, actualT);
 }
 
 export default {

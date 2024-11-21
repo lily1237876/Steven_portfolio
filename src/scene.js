@@ -1,9 +1,11 @@
 import * as THREE from "three";
+import {CSS3DRenderer} from "../lib/CSS3DRenderer.js";
 import {OrbitControls} from "three/addons";
 import Constants from './constants.js';
 import SplatViewer from "./splatting/Splatting.js";
 
 let camera, scene, renderer, controls;
+let cssRenderer;
 let pointer, raycaster;
 
 function getCameraPosition(azimuthalAngle, polarAngle, distance, target) {
@@ -19,7 +21,7 @@ function getCameraPosition(azimuthalAngle, polarAngle, distance, target) {
 }
 let camPosStart = getCameraPosition(Constants.azimuthalAngleStart, Constants.polarAngleStart, Constants.cameraTargetDistanceStart, Constants.camTargetPosStart);
 
-function initScene() {
+function init() {
     // renderer
     renderer = new THREE.WebGLRenderer({
         antialias: true,
@@ -28,10 +30,15 @@ function initScene() {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.setSize(window.innerWidth, window.innerHeight);
-    let canvas_parent_div = document.querySelector('#canvas-container');
-    canvas_parent_div.style.position = 'absolute';
-    canvas_parent_div.style.zIndex = '2';
-    canvas_parent_div.appendChild(renderer.domElement);
+    let canvasParentDiv = document.querySelector('#three-js-canvas');
+    canvasParentDiv.appendChild(renderer.domElement);
+
+    // CSS 3D Renderer
+    cssRenderer = new CSS3DRenderer();
+    cssRenderer.setSize(innerWidth, innerHeight);
+    const css3dCanvas = cssRenderer.domElement;
+    css3dCanvas.id = 'css-3d-canvas';
+    document.body.appendChild(css3dCanvas);
 
     // scene
     scene = new THREE.Scene();
@@ -79,7 +86,7 @@ function initScene() {
     // orbit control
     controls = new OrbitControls(camera, renderer.domElement);
     // todo Steve: temporarily commented out
-    // controls.enableZoom = false;
+    controls.enableZoom = false;
 
     setupEventListeners();
 
@@ -88,10 +95,11 @@ function initScene() {
 
 function setupEventListeners() {
     window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.aspect = innerWidth / innerHeight;
         camera.updateProjectionMatrix();
 
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setSize( innerWidth, innerHeight );
+        cssRenderer.setSize( innerWidth, innerHeight );
     })
 }
 
@@ -103,7 +111,7 @@ function animate() {
     SplatViewer.updateCameraMatrix(m);
 
     renderer.render(scene, camera);
-
+    cssRenderer.render(scene, camera);
 }
 
 function updateCameraAndControls(position, targetPosition) {
@@ -123,6 +131,25 @@ function getCameraAngleAndDistance(position, target) { // return azimuthal & pol
     };
 }
 
+// todo Steve: this is useful when multiple objects are in the group, and we raycast onto a child object
+//  but we need to identify the entire group category
+function traverseGroupToAddLabel(group, label) {
+    if (group.children.length === 0) {
+        group.userData.label = label;
+        return;
+    }
+    group.userData.label = label;
+    for (let i = 0; i < group.children.length; i++) {
+        traverseGroupToAddLabel(group.children[i], label);
+    }
+}
+
+function addTestCube() {
+    let geo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+    let mat = new THREE.MeshStandardMaterial({color: 0x0000ff});
+    return new THREE.Mesh(geo, mat);
+}
+
 function getInternals() {
     return {
         scene,
@@ -136,8 +163,10 @@ function getInternals() {
 
 export default {
     getCameraPosition,
-    initScene,
+    init,
     updateCameraAndControls,
     getCameraAngleAndDistance,
+    traverseGroupToAddLabel,
+    addTestCube,
     getInternals,
 }

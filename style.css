@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    font-family: monospace;
+    background: black;
+    text-shadow: 0 0 3px black;
+
+    overflow-x: hidden;
+    overscroll-behavior: none;
+}
+
+#gs-canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*touch-action: none;*/
+}
+
+#three-js-canvas {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#css-3d-canvas {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+
+    pointer-events: none;
+    touch-action: none;
+}
+
+.css-3d-text {
+    /*width: fit-content;*/
+    /*height: fit-content;*/
+    /*padding: 8px;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*border-radius: 10px;*/
+    /*transform-origin: center;*/
+    /*color: yellow;*/
+    /*font-size: 1rem;*/
+}
+
+#video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /*width: 100%;*/
+    height: 100%;
+    z-index: -1;
+
+    visibility: hidden;
+}
+
+#project-container {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    padding: 10px;
+    color: white;
+    font-size: 1rem;
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#project-title {
+    font-size: 1.5rem;
+}
+
+#project-preview-container {
+    position: absolute;
+    height: 90%;
+    width: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    place-items: center;
+    gap: 1%;
+
+    /*border: 2px solid blue;*/
+
+    z-index: 10;
+}
+
+.project-preview-img {
+    object-fit: contain;
+
+    max-width: max(100%, 100px);
+    max-height: max(100%, 100px);
+}

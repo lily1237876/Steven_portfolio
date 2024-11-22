@@ -10,6 +10,7 @@ import ComicBookViewer from "./src/comicBook/init.js";
 import ClothViewer from "./src/cloth/init.js";
 import AsciiViewer from './src/ascii/init.js';
 import ChairViewer from './src/reer/init.js';
+import MoonMeasureViewer from './src/moon/init.js';
 
 
 let camera, scene, renderer, controls;
@@ -112,16 +113,16 @@ async function init() {
     let dora = await DoraViewer.startDoraViewer();
     let comicBook = await ComicBookViewer.startComicBook();
     let cloth = ClothViewer.startCloth();
-    let videoPlane = AsciiViewer.startAsciiViewer();
+    let asciiViewer = AsciiViewer.startAsciiViewer();
     let reerChair = ChairViewer.startChairViewer();
+    let moonMeasure = MoonMeasureViewer.startMoonMeasureViewer();
+    
 
     // vr game
 
     // arboretum
 
     // sketcher 3D
-
-    // reer website animated model
 
     // gaussian splatting
 
@@ -131,7 +132,7 @@ async function init() {
     //  Dava's ACM Siggraph screenshot
 
 
-    carouselArr = [dora, comicBook, cloth, videoPlane, reerChair];
+    carouselArr = [dora, comicBook, cloth, asciiViewer, reerChair, moonMeasure];
     makeCarousel(0);
 
     setupEventListeners();

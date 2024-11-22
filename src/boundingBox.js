@@ -37,6 +37,8 @@ const fsBoundingBoxSource = `
     }
 `;
 
+let DIV_WIDTH_MULTIPLIER = 280;
+
 export class BoundingBox {
     constructor(size, center = new THREE.Vector3(), h1 = '', h2 = '', d1 = '', d2 = '') {
         this.size = size;
@@ -45,6 +47,9 @@ export class BoundingBox {
         this.h2 = h2; // small title
         this.d1 = d1; // big description
         this.d2 = d2; // small description
+
+        this.box3 = new THREE.Box3().setFromCenterAndSize(this.center, this.size);
+        this.dim = new THREE.Vector3().subVectors(this.box3.max, this.box3.min);
 
         this.boxMesh = null;
         this.textObjs = new THREE.Group();
@@ -66,8 +71,8 @@ export class BoundingBox {
         titleSmallDiv.style.flexDirection = 'column';
         titleSmallDiv.style.gap = '5px';
         titleSmallDiv.style.transform = 'translate(50%, -50%)';
-        titleSmallDiv.style.width = '30vw';
-        titleSmallDiv.style.maxWidth = '330px';
+        titleSmallDiv.style.width = `max(60vw, ${DIV_WIDTH_MULTIPLIER * this.dim.x}px)`;
+        titleSmallDiv.style.maxWidth = `${DIV_WIDTH_MULTIPLIER * this.dim.x}px`;
         titleSmallDiv.style.paddingBottom = '10px';
         titleDiv.appendChild(titleSmallDiv);
 
@@ -103,8 +108,8 @@ export class BoundingBox {
         titleSmallDiv.style.flexDirection = 'column';
         titleSmallDiv.style.gap = '5px';
         titleSmallDiv.style.transform = 'translate(50%, 50%)';
-        titleSmallDiv.style.width = '30vw';
-        titleSmallDiv.style.maxWidth = '330px';
+        titleSmallDiv.style.width = `max(60vw, ${DIV_WIDTH_MULTIPLIER * this.dim.x}px)`;
+        titleSmallDiv.style.maxWidth = `${DIV_WIDTH_MULTIPLIER * this.dim.x}px`;
         titleSmallDiv.style.paddingTop = '10px';
         titleDiv.appendChild(titleSmallDiv);
 
@@ -144,9 +149,7 @@ export class BoundingBox {
 
 
     addBoxMesh() {
-        let box3 = new THREE.Box3().setFromCenterAndSize(this.center, this.size);
-        let dim = new THREE.Vector3().subVectors(box3.max, box3.min);
-        let dimArr = dim.toArray();
+        let dimArr = this.dim.toArray();
 
         let uSize = 0.075;
         this.boxMesh = new THREE.Group();
@@ -155,9 +158,9 @@ export class BoundingBox {
         permutation([], dirs);
         for (let dir of dirs) {
             let p1 = [
-                dir[0] === -1 ? box3.min.x : box3.max.x,
-                dir[1] === -1 ? box3.min.y : box3.max.y,
-                dir[2] === -1 ? box3.min.z : box3.max.z,
+                dir[0] === -1 ? this.box3.min.x : this.box3.max.x,
+                dir[1] === -1 ? this.box3.min.y : this.box3.max.y,
+                dir[2] === -1 ? this.box3.min.z : this.box3.max.z,
             ];
             for (let i = 0; i < 3; i++) {
                 let p2 = [...p1];

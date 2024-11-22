@@ -15,6 +15,7 @@ function startArboretumViewer() {
     videoElement.autoplay = true;
     videoElement.loop = true;
     videoElement.muted = true;
+    videoElement.playsInline = true;
     videoElement.addEventListener('loadedmetadata', (e) => {
         loadVideoCb(e.target);
     });

@@ -64,7 +64,7 @@ async function loadModels() {
                     new THREE.Vector3(boundingBoxSize, boundingBoxSize, boundingBoxSize),
                     new THREE.Vector3(),
                     'Dora\'s Firefly',
-                    'Interactive Experience in Unreal Engine 5',
+                    'Interactive Storytelling in Unreal Engine 5',
                     '“How do we deal with past trauma?”',
                     'A story about loss & found of inner peace after trauma. Made in UE5 with Niagara particle system, animation system, and blueprints. All 3D objects modeled in Blender.');
                 let doraBoundingBoxMesh = doraBoundingBox.boxMesh;

@@ -84,9 +84,9 @@ function init() {
     raycaster = new THREE.Raycaster();
 
     // orbit control
-    controls = new OrbitControls(camera, renderer.domElement);
     // todo Steve: temporarily commented out
-    controls.enableZoom = false;
+    // controls = new OrbitControls(camera, renderer.domElement);
+    // controls.enableZoom = false;
 
     setupEventListeners();
 

@@ -11,6 +11,7 @@ import ClothViewer from "./src/cloth/init.js";
 import AsciiViewer from './src/ascii/init.js';
 import ChairViewer from './src/reer/init.js';
 import MoonMeasureViewer from './src/moon/init.js';
+import ArboretumViewer from './src/arboretum/init.js';
 
 
 let camera, scene, renderer, controls;
@@ -60,23 +61,94 @@ function setupEventListeners() {
     }
 
     let t1 = 0;
-    let t2 = 0; // [0, 1]
-    // let carouselArr = [1, 2, 3, 4, 5];
     document.addEventListener('wheel', (e) => {
         // moveCameraInSplatViewer();
 
         let delta = clamp(-e.deltaY, -5, 5) / 100;
-        t2 = (t2 + delta + 1) % 1;
         t1 += delta;
 
-        centerIndex = Math.round(t2 * carouselArr.length) % carouselArr.length;
-        centerOffset = fract(carouselArr.length * t2 + 0.5);
-        centerOffset = remap(centerOffset, 0, 1, -1, 1);
-
-        // console.log(t2.toFixed(2), centerIndex, centerOffset.toFixed(2));
+        // centerIndex = Math.round(t2 * carouselArr.length) % carouselArr.length;
+        // centerOffset = fract(carouselArr.length * t2 + 0.5);
+        // centerOffset = remap(centerOffset, 0, 1, -1, 1);
 
         makeCarousel(t1);
+
+        // todo Steve: have some bugs here, need to fix
+        let wholeCarousel = carouselGap * carouselArr.length;
+        let a_big_number = 420;
+        let t2 = (t1 + a_big_number * wholeCarousel) % wholeCarousel;
+        t2 /= carouselArr.length;
+        centerIndex = Math.round(t1 * carouselArr.length) % carouselArr.length;
+        console.log(centerIndex);
+
+        // if (centerIndex === 0) {
+        //     VideoBackground.changeVideo(0);
+        // } else if (centerIndex === 2) {
+        //     VideoBackground.changeVideo(1);
+        // }
     })
+
+    let startY = 0; // Initial touch Y position
+    let startTime = 0; // Time when touch starts
+    let lastY = 0; // Last known Y position
+    let lastTime = 0; // Last known timestamp
+
+    let delta = 0;
+    let touchEndId = null;
+
+    function handleTouchStart(event) {
+        const touch = event.touches[0];
+        startY = touch.clientY;
+        lastY = touch.clientY;
+        startTime = event.timeStamp;
+        lastTime = event.timeStamp;
+
+        clearInterval(touchEndId);
+        delta = 0;
+    }
+
+    function handleTouchMove(event) {
+        const touch = event.touches[0];
+        const currentY = touch.clientY;
+        const currentTime = event.timeStamp;
+
+        const deltaY = lastY - currentY; // Difference in Y position
+        const deltaTime = currentTime - lastTime; // Difference in time
+
+        if (deltaTime > 0) {
+            const speed = deltaY / deltaTime; // Speed in pixels/ms
+            // console.log(`Scroll-like speed: ${speed}`);
+
+            // You can simulate a scroll or wheel event here
+            delta = clamp(-speed, -5, 5) / 15;
+            t1 += delta;
+            makeCarousel(t1);
+        }
+
+        // Update last positions
+        lastY = currentY;
+        lastTime = currentTime;
+    }
+
+    function handleTouchEnd(event) {
+        const touchDuration = event.timeStamp - startTime;
+        const totalDistance = startY - lastY;
+        const averageSpeed = totalDistance / touchDuration; // Average speed
+        console.log(`Average speed: ${averageSpeed}`);
+        // Perform actions based on the final touch gesture
+
+        touchEndId = setInterval(() => {
+            delta *= 0.95;
+            t1 += delta;
+            makeCarousel(t1);
+        }, 1000 / 60);
+    }
+
+    // Attach event listeners
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true });
+    document.addEventListener('touchend', handleTouchEnd);
+
 }
 
 let carouselArr = [];
@@ -116,11 +188,9 @@ async function init() {
     let asciiViewer = AsciiViewer.startAsciiViewer();
     let reerChair = ChairViewer.startChairViewer();
     let moonMeasure = MoonMeasureViewer.startMoonMeasureViewer();
-    
+    let arboretum = ArboretumViewer.startArboretumViewer();
 
     // vr game
-
-    // arboretum
 
     // sketcher 3D
 
@@ -132,7 +202,7 @@ async function init() {
     //  Dava's ACM Siggraph screenshot
 
 
-    carouselArr = [dora, comicBook, cloth, asciiViewer, reerChair, moonMeasure];
+    carouselArr = [dora, comicBook, arboretum, cloth, asciiViewer, reerChair, moonMeasure];
     makeCarousel(0);
 
     setupEventListeners();
@@ -140,16 +210,18 @@ async function init() {
 
 let centerIndex = 0;
 let centerOffset = 0;
-let carouselOffset = 1.6;
+let carouselGap = 1.6;
 
-
+let a_big_number = 420;
 function makeCarousel(t) {
-    let wholeCarousel = carouselOffset * carouselArr.length;
+    let carouselOffset = 2;
+    let wholeCarousel = carouselGap * carouselArr.length;
     for (let i = 0; i < carouselArr.length; i++) {
         let obj = carouselArr[i];
-        let xOffset = (carouselOffset * (i + 2) + t + 420 * wholeCarousel) % wholeCarousel - 2 * carouselOffset;
+        let xOffset = (carouselGap * (i + carouselOffset) + t + a_big_number * wholeCarousel) % wholeCarousel - carouselOffset * carouselGap;
         obj.position.x = xOffset;
     }
+    // centerIndex = Math.round((t + a_big_number * wholeCarousel) % wholeCarousel);
 }
 
 window.onload = function() {

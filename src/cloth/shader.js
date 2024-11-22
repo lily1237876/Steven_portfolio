@@ -28,7 +28,7 @@ export const vsClothSource = `
         
         float zOffset = 0.;
         
-        float uMaxZOffset = 0.5;
+        float uMaxZOffset = 0.75;
         float uThickness = 0.05;
         float uRippleSpeed = .75;
         

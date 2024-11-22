@@ -44,7 +44,7 @@ function startChairViewer() {
         'Reer (client work)',
         'Point-cloud shader, scroll animation, explosion effect in three.js',
         '',
-        'Built an interactive 3D chair that morphs through different phases, to illustrate the 3D printing process and recyclable mindset behind Reer\'s product design.');
+        'Charged to build an interactive 3D chair that morphs through different phases, to illustrate the 3D printing process and recyclable mindset behind Reer\'s product design.');
     let chairBoundingBoxMesh = chairBoundingBox.boxMesh;
     let chairBoundingBoxTextObjs = chairBoundingBox.textObjs;
     bigGroup.add(chairBoundingBoxMesh);

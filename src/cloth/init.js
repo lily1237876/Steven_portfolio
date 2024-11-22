@@ -28,16 +28,7 @@ function setupEventListeners() {
     document.addEventListener('pointermove', (e) => {
         e.stopPropagation();
         if (lastTime !== null && performance.now() - lastTime < interval) return; // limit triggering of subsequent functions
-
-        // let pointer = new THREE.Vector2((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
-        // raycaster.setFromCamera(pointer, camera);
-        // let intersects = raycaster.intersectObject(cloth);
-        // if (intersects.length === 0) return;
-        // if (!cloth) return;
         if (Intersects.intersectedLabel !== CLOTH_LABEL) return;
-
-        // console.log(Intersects.intersectedObject);
-
         lastTime = performance.now();
 
         cloth.material.uniforms['ripples'].value[rippleIdx].isActive = true;
@@ -102,15 +93,10 @@ function startCloth() {
     return clothGroup;
 }
 
-let startTime = null;
-function onFrame(now) {
+function onFrame() {
     requestAnimationFrame(onFrame);
 
-    if (startTime === null && now !== undefined) {
-        startTime = now;
-    }
-
-    cloth.material.uniforms['uTime'].value = (now - startTime) / 1000;
+    cloth.material.uniforms['uTime'].value = performance.now() / 1000;
 }
 
 export default {

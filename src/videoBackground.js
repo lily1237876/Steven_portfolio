@@ -54,7 +54,12 @@ function setupEventListeners() {
     })
 }
 
-function changeVideo() {
+let videoSources = [
+    `${import.meta.env.BASE_URL}videos/dora.mp4`,
+    `${import.meta.env.BASE_URL}videos/arboretum.mp4`,
+];
+
+function initVideo(idx) {
     let videoElement = document.querySelector('#video-background');
 
     videoElement.addEventListener('loadedmetadata', () => {
@@ -62,9 +67,11 @@ function changeVideo() {
         videoPlane.material.uniforms['uVideoTexture'].value = videoTexture;
         videoPlane.material.uniforms['uVideoAspect'].value = videoElement.videoWidth / videoElement.videoHeight;
     });
+}
 
-    videoElement.src = `${import.meta.env.BASE_URL}videos/dora.mp4`;
-    // videoElement.src = `${import.meta.env.BASE_URL}videos/arboretum.mp4`;
+function changeVideo(idx) {
+    let videoElement = document.querySelector('#video-background');
+    videoElement.src = videoSources[idx];
 }
 
 function loadRGBTexture() {
@@ -117,7 +124,7 @@ function init() {
     scene.add(videoPlane);
 
     loadRGBTexture();
-    changeVideo();
+    initVideo(0);
 
     loadProjectPreviewMaterial();
 
@@ -131,4 +138,5 @@ function getVideoPlane() {
 export default {
     init,
     getVideoPlane,
+    changeVideo,
 }

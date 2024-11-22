@@ -6,7 +6,8 @@ body {
     background: black;
     text-shadow: 0 0 3px black;
 
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
+    overflow: hidden;
     overscroll-behavior: none;
 }
 

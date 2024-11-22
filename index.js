@@ -98,8 +98,8 @@ function setupEventListeners() {
 
     function handleTouchStart(event) {
         const touch = event.touches[0];
-        startY = touch.clientY;
-        lastY = touch.clientY;
+        startY = touch.clientX;
+        lastY = touch.clientX;
         startTime = event.timeStamp;
         lastTime = event.timeStamp;
 
@@ -109,7 +109,7 @@ function setupEventListeners() {
 
     function handleTouchMove(event) {
         const touch = event.touches[0];
-        const currentY = touch.clientY;
+        const currentY = touch.clientX;
         const currentTime = event.timeStamp;
 
         const deltaY = lastY - currentY; // Difference in Y position

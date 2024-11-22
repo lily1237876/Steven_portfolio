@@ -57,19 +57,36 @@ function setupEventListeners() {
 let videoSources = [
     `${import.meta.env.BASE_URL}videos/dora.mp4`,
     `${import.meta.env.BASE_URL}videos/arboretum.mp4`,
+    `${import.meta.env.BASE_URL}videos/cloth.mp4`,
+    `${import.meta.env.BASE_URL}videos/ascii.mp4`,
+    `${import.meta.env.BASE_URL}videos/moon.mp4`,
 ];
+let videoTexture = null;
+let videoIndex = 0;
 
 function initVideo(idx) {
     let videoElement = document.querySelector('#video-background');
 
     videoElement.addEventListener('loadedmetadata', () => {
-        let videoTexture = new THREE.VideoTexture( videoElement );
+        console.log('loaded meta data', videoSources[videoIndex]);
+        videoTexture = new THREE.VideoTexture( videoElement );
         videoPlane.material.uniforms['uVideoTexture'].value = videoTexture;
         videoPlane.material.uniforms['uVideoAspect'].value = videoElement.videoWidth / videoElement.videoHeight;
     });
+
+    videoElement.addEventListener('ended', () => {
+        console.log('video ended', videoSources[videoIndex]);
+        videoIndex = (videoIndex + 1) % videoSources.length;
+        changeVideo(videoIndex);
+    });
+
+    videoElement.src = videoSources[idx];
 }
 
 function changeVideo(idx) {
+    if (videoTexture !== null) {
+        videoTexture.dispose();
+    }
     let videoElement = document.querySelector('#video-background');
     videoElement.src = videoSources[idx];
 }
@@ -124,7 +141,7 @@ function init() {
     scene.add(videoPlane);
 
     loadRGBTexture();
-    initVideo(0);
+    initVideo(videoIndex);
 
     loadProjectPreviewMaterial();
 

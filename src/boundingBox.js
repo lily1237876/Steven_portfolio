@@ -133,10 +133,46 @@ export class BoundingBox {
         this.textObjs.add(titleObj);
     }
 
+    makeLine(p1, p2) {
+        let geo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+        let mat = new THREE.LineBasicMaterial({
+            color: 0xffffff
+        });
+
+        return new THREE.Line( geo, mat );
+    }
+
 
     addBoxMesh() {
         let box3 = new THREE.Box3().setFromCenterAndSize(this.center, this.size);
         let dim = new THREE.Vector3().subVectors(box3.max, box3.min);
+        let dimArr = dim.toArray();
+
+        let uSize = 0.075;
+        this.boxMesh = new THREE.Group();
+
+        let dirs = [];
+        permutation([], dirs);
+        for (let dir of dirs) {
+            let p1 = [
+                dir[0] === -1 ? box3.min.x : box3.max.x,
+                dir[1] === -1 ? box3.min.y : box3.max.y,
+                dir[2] === -1 ? box3.min.z : box3.max.z,
+            ];
+            for (let i = 0; i < 3; i++) {
+                let p2 = [...p1];
+                p2[i] += (-dir[i]) * dimArr[i] * uSize;
+
+                let line = this.makeLine(new THREE.Vector3().fromArray(p1), new THREE.Vector3().fromArray(p2));
+                this.boxMesh.add(line);
+            }
+        }
+    }
+
+    addBoxMeshOld() { // have some occlusion issues
+        let box3 = new THREE.Box3().setFromCenterAndSize(this.center, this.size);
+        let dim = new THREE.Vector3().subVectors(box3.max, box3.min);
+
         let geo = new THREE.BoxGeometry(dim.x, dim.y, dim.z);
         let mat = new THREE.ShaderMaterial({
             vertexShader: vsBoundingBoxSource,
@@ -149,4 +185,16 @@ export class BoundingBox {
         });
         this.boxMesh = new THREE.Mesh(geo, mat);
     }
+}
+
+function permutation(cur, arr) {
+    if (cur.length === 3) {
+        arr.push([...cur]);
+        return;
+    }
+    cur.push(-1);
+    permutation([...cur], arr);
+    cur.pop();
+    cur.push(1);
+    permutation([...cur], arr);
 }

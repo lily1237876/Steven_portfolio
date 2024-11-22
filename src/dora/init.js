@@ -59,8 +59,9 @@ async function loadModels() {
                 doraGroup.add(doraObjs);
                 scene.add(doraGroup);
 
+                let boundingBoxSize = 0.95;
                 let doraBoundingBox = new BoundingBox(
-                    new THREE.Vector3(1, 1, 1),
+                    new THREE.Vector3(boundingBoxSize, boundingBoxSize, boundingBoxSize),
                     new THREE.Vector3(),
                     'Dora\'s Firefly',
                     'Interactive Experience in Unreal Engine 5',

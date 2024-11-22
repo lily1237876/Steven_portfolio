@@ -88,7 +88,7 @@ async function startComicBook() {
 
     let boundingBoxSize = 1.2;
     let comicBookBoundingBox = new BoundingBox(
-        new THREE.Vector3(boundingBoxSize, boundingBoxSize / 1.5, boundingBoxSize),
+        new THREE.Vector3(boundingBoxSize, boundingBoxSize / 1.6, boundingBoxSize / 1.5),
         new THREE.Vector3(),
         'GLSL Comic Book',
         'Fully procedural comic book shader written in GLSL',

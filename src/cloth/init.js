@@ -83,12 +83,12 @@ function startCloth() {
     Intersects.add(CLOTH_LABEL, cloth);
 
     let clothBoundingBox = new BoundingBox(
-        new THREE.Vector3(1, 1, 0.5),
+        new THREE.Vector3(1, 1, 0.2),
         new THREE.Vector3(),
         'Interactive Cloth ?!?!',
         'Various cloth simulation experiments, on CPU and GPU',
-        'Cloth simulation on CPU is easy. But can you do it on GPU? Guess what? Now you\'re looking at one! Move mouse🖱️/finger👆 on the cloth to see effects.',
-        'Cloth simulation can be tough but cool. Once I got the hang of it, I\'ve done several experiments / variations of it: combining it with AI hand detection, shrink-wrapping it around different objects, and computing the volume enclosed.'
+        'Move mouse🖱️/finger👆 across the cloth to see the effect👀',
+        'Cloth simulation on CPU is easy. But can you do it on GPU? Guess what? Now you\'re looking at one! I\'ve done several experiments / variations of it: combining it with AI hand detection, shrink-wrapping it around different objects, and computing the volume enclosed.'
     );
     let clothBoundingBoxMesh = clothBoundingBox.boxMesh;
     let clothBoundingBoxTextObjs = clothBoundingBox.textObjs;

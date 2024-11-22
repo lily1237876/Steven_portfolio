@@ -9,6 +9,7 @@ import DoraViewer from "./src/dora/init.js";
 import ComicBookViewer from "./src/comicBook/init.js";
 import ClothViewer from "./src/cloth/init.js";
 import AsciiViewer from './src/ascii/init.js';
+import ChairViewer from './src/reer/init.js';
 
 
 let camera, scene, renderer, controls;
@@ -112,6 +113,7 @@ async function init() {
     let comicBook = await ComicBookViewer.startComicBook();
     let cloth = ClothViewer.startCloth();
     let videoPlane = AsciiViewer.startAsciiViewer();
+    let reerChair = ChairViewer.startChairViewer();
 
     // vr game
 
@@ -128,11 +130,8 @@ async function init() {
     //  poster for MIT Media Lab member's week
     //  Dava's ACM Siggraph screenshot
 
-    let testCube1 = Scene.addTestCube();
-    // scene.add(testCube1);
-    let testCube2 = Scene.addTestCube();
-    // scene.add(testCube2);
-    carouselArr = [dora, comicBook, cloth, videoPlane];
+
+    carouselArr = [dora, comicBook, cloth, videoPlane, reerChair];
     makeCarousel(0);
 
     setupEventListeners();
@@ -140,14 +139,14 @@ async function init() {
 
 let centerIndex = 0;
 let centerOffset = 0;
-let carouselOffset = 1.8;
+let carouselOffset = 1.6;
 
 
 function makeCarousel(t) {
     let wholeCarousel = carouselOffset * carouselArr.length;
     for (let i = 0; i < carouselArr.length; i++) {
         let obj = carouselArr[i];
-        let xOffset = (carouselOffset * i + t + 420 * wholeCarousel) % wholeCarousel - 2 * carouselOffset;
+        let xOffset = (carouselOffset * (i + 2) + t + 420 * wholeCarousel) % wholeCarousel - 2 * carouselOffset;
         obj.position.x = xOffset;
     }
 }

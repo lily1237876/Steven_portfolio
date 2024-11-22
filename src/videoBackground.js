@@ -66,16 +66,19 @@ let videoIndex = 0;
 
 function initVideo(idx) {
     let videoElement = document.querySelector('#video-background');
+    videoElement.autoplay = true;
+    videoElement.muted = true;
+    videoElement.playsInline = true;
 
     videoElement.addEventListener('loadedmetadata', () => {
-        console.log('loaded meta data', videoSources[videoIndex]);
+        // console.log('loaded meta data', videoSources[videoIndex]);
         videoTexture = new THREE.VideoTexture( videoElement );
         videoPlane.material.uniforms['uVideoTexture'].value = videoTexture;
         videoPlane.material.uniforms['uVideoAspect'].value = videoElement.videoWidth / videoElement.videoHeight;
     });
 
     videoElement.addEventListener('ended', () => {
-        console.log('video ended', videoSources[videoIndex]);
+        // console.log('video ended', videoSources[videoIndex]);
         videoIndex = (videoIndex + 1) % videoSources.length;
         changeVideo(videoIndex);
     });

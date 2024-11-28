@@ -4,6 +4,7 @@ import Scene from "../scene.js";
 import Intersects from "../intersects.js";
 import {clamp, remapCurveEaseIn2, remapCurveEaseOut2} from "../mathUtils.js";
 import {BoundingBox} from "../boundingBox.js";
+import { initHTML } from "./html.js";
 
 let scene;
 let loader;
@@ -19,6 +20,7 @@ async function startDoraViewer() {
     loader = new GLTFLoader();
     scene = Scene.getInternals().scene;
 
+    initHTML();
 
     // let camPos = new THREE.Vector3(0, 0, 2);
     // let camTargetPos = new THREE.Vector3(0, 0, 0);

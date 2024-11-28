@@ -25,7 +25,7 @@ function setupEventListeners() {
     let interval = 50;
     let rippleIdx = 0;
 
-    document.addEventListener('pointermove', (e) => {
+    function handleScrollRipple(e) {
         e.stopPropagation();
         if (lastTime !== null && performance.now() - lastTime < interval) return; // limit triggering of subsequent functions
         if (Intersects.intersectedLabel !== CLOTH_LABEL) return;
@@ -35,7 +35,15 @@ function setupEventListeners() {
         cloth.material.uniforms['ripples'].value[rippleIdx].center = Intersects.intersects[0].uv;
         cloth.material.uniforms['ripples'].value[rippleIdx].time = performance.now() / 1000;
         rippleIdx = (rippleIdx + 1) % RIPPLE_COUNT;
-    })
+    }
+
+    document.addEventListener('wheel', (e) => {
+        handleScrollRipple(e);
+    });
+
+    document.addEventListener('pointermove', (e) => {
+        handleScrollRipple(e);
+    });
 }
 
 function startCloth() {

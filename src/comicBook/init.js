@@ -138,7 +138,7 @@ function onFrame() {
 
 function loadTexture(idx) {
     if (!loader) loader = new THREE.TextureLoader();
-    let imgBasePath = `${import.meta.env.BASE_URL}imgs/comicBook`;
+    let imgBasePath = `${import.meta.env.BASE_URL}comicBook`;
     return new Promise((resolve, reject) => {
         loader.load(`${imgBasePath}/${idx}.jpg`, (texture) => {
             resolve(texture);

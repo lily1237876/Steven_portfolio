@@ -11,15 +11,29 @@ function startAsciiViewer() {
     scene.add(asciiGroup);
 
     // load video
-    let videoElement = document.createElement('video');
-    videoElement.autoplay = true;
-    videoElement.loop = true;
-    videoElement.muted = true;
-    videoElement.playsInline = true;
-    videoElement.addEventListener('loadedmetadata', (e) => {
-        loadVideoCb(e.target);
-    });
-    videoElement.src = `${import.meta.env.BASE_URL}videos/ascii.mp4`;
+    let videoPlane = new VideoPlane(
+        `${import.meta.env.BASE_URL}bufferJS/ascii.mp4`,
+        1.5,
+        {
+            onLoad: (thisPlane) => {
+                asciiGroup.add(thisPlane.mesh);
+
+                // add bounding box
+                let asciiBoundingBox = new BoundingBox(
+                    new THREE.Vector3(1, 1 / thisPlane.aspect, 0.2),
+                    new THREE.Vector3(),
+                    'Buffer.js',
+                    'A retro-inspired ASCII render engine, in pure JavaScript.',
+                    'Feeling Nostalgic......',
+                    'Computer terminals and game consoles. How cool. I didn\'t know how exactly they work, but at least I made one that looks like \'em. Users can draw or use simple code to control motion graphics, as if they\'re rendered on an 80s monitor.'
+                );
+                let asciiBoundingBoxMesh = asciiBoundingBox.boxMesh;
+                let asciiBoundingBoxTextObjs = asciiBoundingBox.textObjs;
+                asciiGroup.add(asciiBoundingBoxMesh);
+                asciiGroup.add(asciiBoundingBoxTextObjs);
+            },
+        }
+    );
 
     return asciiGroup;
 }

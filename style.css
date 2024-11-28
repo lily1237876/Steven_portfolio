@@ -6,8 +6,8 @@ body {
     background: black;
     text-shadow: 0 0 3px black;
 
-    /*overflow-x: hidden;*/
-    overflow: hidden;
+    overflow-x: hidden;
+    /* overflow: hidden; */
     overscroll-behavior: none;
 }
 
@@ -40,18 +40,6 @@ body {
     touch-action: none;
 }
 
-.css-3d-text {
-    /*width: fit-content;*/
-    /*height: fit-content;*/
-    /*padding: 8px;*/
-    /*top: 0;*/
-    /*left: 0;*/
-    /*border-radius: 10px;*/
-    /*transform-origin: center;*/
-    /*color: yellow;*/
-    /*font-size: 1rem;*/
-}
-
 #video-background {
     position: absolute;
     top: 0;
@@ -63,7 +51,7 @@ body {
     visibility: hidden;
 }
 
-#project-container {
+#page-overview-container {
     position: absolute;
     top: 5%;
     left: 5%;
@@ -76,31 +64,59 @@ body {
     flex-direction: column;
 }
 
-#project-title {
+#page-overview-title {
     font-size: 180%;
 }
 
-#project-preview-container {
+#detail-container {
     position: absolute;
-    height: 90%;
-    width: 90%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    padding: min(10%, 10px);
+    width: calc(100vw - 2 * min(10%, 10px));
+    height: calc(100vh - 2 * min(10%, 10px));
 
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     place-items: center;
     gap: 1%;
 
-    /*border: 2px solid blue;*/
-
     z-index: 10;
+    backdrop-filter: blur(4px);
 }
 
-.project-preview-img {
+.detail-img {
     object-fit: contain;
+    max-width: max(100%, 100px);
+    max-height: max(100%, 100px);
 
+    cursor: pointer;
+}
+
+.temp-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: min(5%, 5px);
+    width: calc(100vw - 2 * min(5%, 5px));
+    height: calc(100vh - 2 * min(5%, 5px));
+    z-index: 11;
+    backdrop-filter: blur(4px);
+}
+
+.temp-back-button {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 2%;
+    /* border: 2px solid blue; */
+    width: 10%;
+    height: 10%;
+    cursor: pointer;
+}
+
+.temp-img {
+    object-fit: contain;
     max-width: max(100%, 100px);
     max-height: max(100%, 100px);
 }

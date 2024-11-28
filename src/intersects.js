@@ -3,34 +3,88 @@ import Scene from "./scene.js";
 
 class Intersects {
     constructor() {
-        this.intersectList = new Map;
+        // list of objects available for raycast
+        this.intersectList = new Map();
+
+        // deal with pointermove event
         this.intersectedLabel = '';
         this.intersects = null;
         this.intersectedObject = null;
         this.lastIntersectedObject = null;
 
+        // deal with pointerdown event
+        this.clickedLabel = '';
+        this.clicks = null;
+        this.clickedObject = null;
+        this.lastClickedObject = null;
+        this.clickCbs = new Map(); // map of {'label', cb} for pointerdown events
+
         this.pointer = new Vector2();
         this.raycaster = new Raycaster();
+
+        this.handleWheelAndPointerMove.bind(this);
+        this.handlePointerDown.bind(this);
+    }
+
+    handleWheelAndPointerMove(e) {
+        this.pointer.x = ( e.clientX / window.innerWidth ) * 2 - 1;
+        this.pointer.y = - ( e.clientY / window.innerHeight ) * 2 + 1;
+
+        this.raycaster.setFromCamera( this.pointer, this.camera );
+        this.intersects = this.raycaster.intersectObjects( this.getObjs() );
+        if (this.intersects.length === 0) {
+            document.body.style.cursor = '';
+            this.intersectedLabel = '';
+            this.intersectedObject = null;
+            return;
+        }
+        document.body.style.cursor = 'pointer';
+        this.intersectedLabel = this.intersects[0].object.userData.label;
+        this.lastIntersectedObject = this.intersectedObject;
+        this.intersectedObject = this.intersects[0].object;
+    }
+
+    handlePointerDown(e) {
+        this.pointer.x = ( e.clientX / window.innerWidth ) * 2 - 1;
+        this.pointer.y = - ( e.clientY / window.innerHeight ) * 2 + 1;
+
+        this.raycaster.setFromCamera( this.pointer, this.camera );
+        this.clicks = this.raycaster.intersectObjects( this.getObjs() );
+        if (this.clicks.length === 0) {
+            this.clickedLabel = '';
+            this.clickedObject = null;
+            return;
+        }
+        this.clickedLabel = this.clicks[0].object.userData.label;
+        this.lastClickedObject = this.clickedObject;
+        this.clickedObject = this.clicks[0].object;
+
+        let clickCbs = this.clickCbs.get(this.clickedLabel);
+        clickCbs.forEach(cb => cb());
+    }
+
+    addClickCb(label, cb) {
+        if (!this.clickCbs.has(label)) {
+            this.clickCbs.set(label, [cb]);
+        } else {
+            let clickCbs = this.clickCbs.get(label);
+            clickCbs.push(cb);
+        }
     }
 
     init() {
-        let camera = Scene.getInternals().camera;
+        this.camera = Scene.getInternals().camera;
+
+        document.addEventListener('wheel', (e) => {
+            this.handleWheelAndPointerMove(e);
+        })
 
         document.addEventListener('pointermove', (e) => {
-            this.pointer.x = ( e.clientX / window.innerWidth ) * 2 - 1;
-            this.pointer.y = - ( e.clientY / window.innerHeight ) * 2 + 1;
+            this.handleWheelAndPointerMove(e);
+        })
 
-            this.raycaster.setFromCamera( this.pointer, camera );
-            this.intersects = this.raycaster.intersectObjects( this.getObjs() );
-            // console.log(this.intersects);
-            if (this.intersects.length === 0) {
-                this.intersectedLabel = '';
-                this.intersectedObject = null;
-                return;
-            }
-            this.intersectedLabel = this.intersects[0].object.userData.label;
-            this.lastIntersectedObject = this.intersectedObject;
-            this.intersectedObject = this.intersects[0].object;
+        document.addEventListener('pointerdown', (e) => {
+            this.handlePointerDown(e);
         })
     }
 

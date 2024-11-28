@@ -55,11 +55,11 @@ function setupEventListeners() {
 }
 
 let videoSources = [
-    `${import.meta.env.BASE_URL}videos/dora.mp4`,
-    `${import.meta.env.BASE_URL}videos/arboretum.mp4`,
-    `${import.meta.env.BASE_URL}videos/cloth.mp4`,
-    `${import.meta.env.BASE_URL}videos/ascii.mp4`,
-    `${import.meta.env.BASE_URL}videos/moon.mp4`,
+    `${import.meta.env.BASE_URL}dora/dora.mp4`,
+    `${import.meta.env.BASE_URL}arboretum/arboretum.mp4`,
+    `${import.meta.env.BASE_URL}clothSimulation/cloth.mp4`,
+    `${import.meta.env.BASE_URL}bufferJS/ascii.mp4`,
+    `${import.meta.env.BASE_URL}spatialMeasure/moon.mp4`,
 ];
 let videoTexture = null;
 let videoIndex = 0;
@@ -69,6 +69,7 @@ function initVideo(idx) {
     videoElement.autoplay = true;
     videoElement.muted = true;
     videoElement.playsInline = true;
+    videoElement.controls = true;
 
     videoElement.addEventListener('loadedmetadata', () => {
         // console.log('loaded meta data', videoSources[videoIndex]);
@@ -106,22 +107,6 @@ function loadRGBTexture() {
     );
 }
 
-function loadProjectPreviewMaterial() {
-    // todo Steve: add this when click on details
-    //  note: if add this, then OrbitControl no longer receives pointer info, need to work on that
-    return;
-    let previewContainer = document.createElement('div');
-    previewContainer.id = 'project-preview-container';
-    document.body.appendChild(previewContainer)
-
-    for (let i = 1; i <= 11; i++) {
-        let img = document.createElement('img');
-        img.src = `${import.meta.env.BASE_URL}imgs/dora/doras_firefly_${i}.PNG`;
-        img.classList.add('project-preview-img');
-        previewContainer.appendChild(img);
-    }
-}
-
 function init() {
     let scene = Scene.getInternals().scene;
 
@@ -145,8 +130,6 @@ function init() {
 
     loadRGBTexture();
     initVideo(videoIndex);
-
-    loadProjectPreviewMaterial();
 
     setupEventListeners();
 }

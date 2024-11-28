@@ -11,42 +11,32 @@ function startArboretumViewer() {
     scene.add(arboretumGroup);
 
     // load video
-    let videoElement = document.createElement('video');
-    videoElement.autoplay = true;
-    videoElement.loop = true;
-    videoElement.muted = true;
-    videoElement.playsInline = true;
-    videoElement.addEventListener('loadedmetadata', (e) => {
-        loadVideoCb(e.target);
-    });
-    videoElement.src = `${import.meta.env.BASE_URL}videos/arboretum.mp4`;
+    // load video
+    let videoPlane = new VideoPlane(
+        `${import.meta.env.BASE_URL}arboretum/arboretum.mp4`,
+        1.5,
+        {
+            onLoad: (thisPlane) => {
+                arboretumGroup.add(thisPlane.mesh);
+
+                // add bounding box
+                let asciiBoundingBox = new BoundingBox(
+                    new THREE.Vector3(1.6, 1.6 / thisPlane.aspect, 0.2),
+                    new THREE.Vector3(),
+                    'Arboretum',
+                    'Particle garden architectural visualization in Unreal Engine 5',
+                    '',
+                    'Players interact with the plants by touching them & generating a unique audio-visual map of the whole journey.'
+                );
+                let asciiBoundingBoxMesh = asciiBoundingBox.boxMesh;
+                let asciiBoundingBoxTextObjs = asciiBoundingBox.textObjs;
+                arboretumGroup.add(asciiBoundingBoxMesh);
+                arboretumGroup.add(asciiBoundingBoxTextObjs);
+            },
+        }
+    );
 
     return arboretumGroup;
-}
-
-function loadVideoCb(videoElement) {
-    videoElement.play();
-    let videoTexture = new THREE.VideoTexture( videoElement );
-
-    let aspect = videoElement.videoWidth / videoElement.videoHeight;
-    let videoPlaneMesh = new VideoPlane(1.5, aspect).mesh;
-    arboretumGroup.add(videoPlaneMesh);
-    videoPlaneMesh.material.uniforms['uVideoTexture'].value = videoTexture;
-    videoPlaneMesh.material.uniforms['uVideoAspect'].value = aspect;
-
-    // add bounding box
-    let asciiBoundingBox = new BoundingBox(
-        new THREE.Vector3(1.6, 1.6 / aspect, 0.2),
-        new THREE.Vector3(),
-        'Arboretum',
-        'Particle garden architectural visualization in Unreal Engine 5',
-        '',
-        'Players interact with the plants by touching them & generating a unique audio-visual map of the whole journey.'
-    );
-    let asciiBoundingBoxMesh = asciiBoundingBox.boxMesh;
-    let asciiBoundingBoxTextObjs = asciiBoundingBox.textObjs;
-    arboretumGroup.add(asciiBoundingBoxMesh);
-    arboretumGroup.add(asciiBoundingBoxTextObjs);
 }
 
 export default {

@@ -7,10 +7,10 @@ import VideoBackground from "./src/videoBackground.js";
 import SplatViewer from "./src/splatting/Splatting.js";
 import DoraViewer from "./src/dora/init.js";
 import ComicBookViewer from "./src/comicBook/init.js";
-import ClothViewer from "./src/cloth/init.js";
-import AsciiViewer from './src/ascii/init.js';
+import ClothViewer from "./src/clothSimulation/init.js";
+import AsciiViewer from './src/bufferJS/init.js';
 import ChairViewer from './src/reer/init.js';
-import MoonMeasureViewer from './src/moon/init.js';
+import MoonMeasureViewer from './src/spatialMeasure/init.js';
 import ArboretumViewer from './src/arboretum/init.js';
 
 
@@ -95,7 +95,12 @@ function setupEventListeners() {
         let t2 = (t1 + a_big_number * wholeCarousel) % wholeCarousel;
         t2 /= carouselArr.length;
         centerIndex = Math.round(t1 * carouselArr.length) % carouselArr.length;
-        console.log(centerIndex);
+        // console.log(centerIndex);
+
+
+        // todo Steve: to understand the relationship between which 3D object is at center and t2,
+        //  we just log out t2 and find the pattern !!!!!
+        //  and use this to 反推 how to compute centerIndex
 
         // if (centerIndex === 0) {
         //     VideoBackground.changeVideo(0);
@@ -207,7 +212,6 @@ async function init() {
         carouselArr.push(dora);
         makeCarousel();
     });
-    // let comicBook = await ComicBookViewer.startComicBook();
     ComicBookViewer.startComicBook().then(comicBook => {
         carouselArr.push(comicBook);
         makeCarousel();
@@ -217,11 +221,10 @@ async function init() {
     carouselArr.push(AsciiViewer.startAsciiViewer());
     carouselArr.push(ChairViewer.startChairViewer());
     carouselArr.push(MoonMeasureViewer.startMoonMeasureViewer());
-    // let cloth = ClothViewer.startCloth();
-    // let asciiViewer = AsciiViewer.startAsciiViewer();
-    // let reerChair = ChairViewer.startChairViewer();
-    // let moonMeasure = MoonMeasureViewer.startMoonMeasureViewer();
-    // let arboretum = ArboretumViewer.startArboretumViewer();
+
+    // add micro-interactions --- move mouse camera pan around
+    // add random graphics design portfolio
+    //  the zip file I sent to Valentin when first applying for this job
 
     // vr game
 
@@ -262,4 +265,4 @@ window.onload = function() {
 };
 
 // FPS counter
-(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
+// (function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()

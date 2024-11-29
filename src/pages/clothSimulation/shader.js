@@ -1,4 +1,4 @@
-import {mathUtilShader} from "../mathUtils.js";
+import {mathUtilShader} from "../../mathUtils.js";
 
 const commonShader = `
     ${mathUtilShader}

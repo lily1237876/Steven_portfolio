@@ -1,6 +1,6 @@
-import { ClickableImage } from "../htmlElements/clickableImage.js";
-import { TempBackButton } from "../htmlElements/backButton.js";
-import Intersects from "../intersects.js";
+import { ClickableImage } from "../../htmlElements/clickableImage.js";
+import { TempBackButton } from "../../htmlElements/backButton.js";
+import Intersects from "../../intersects.js";
 
 let DORA_LABEL = 'dora';
 

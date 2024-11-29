@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import Scene from "../scene.js";
-import Intersects from "../intersects.js";
+import Scene from "../../scene.js";
+import Intersects from "../../intersects.js";
 import {fsClothSource, vsClothSource, RIPPLE_COUNT} from "./shader.js";
-import {BoundingBox} from "../boundingBox.js";
+import {BoundingBox} from "../../3dElements/boundingBox.js";
 
 let geo, mat, cloth;
 let scene, camera;

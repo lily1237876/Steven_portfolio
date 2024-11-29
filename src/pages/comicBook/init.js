@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import Scene from "../scene.js";
+import Scene from "../../scene.js";
 import {vsComicBookSource, fsComicBookSource} from "./shader.js";
-import {mix, remap, remapCurveEaseIn2, remapCurveEaseOut2, smoothstep} from "../mathUtils.js";
-import {BoundingBox} from "../boundingBox.js";
+import {mix, remap, remapCurveEaseIn2, remapCurveEaseOut2, smoothstep} from "../../mathUtils.js";
+import {BoundingBox} from "../../3dElements/boundingBox.js";
 
 let geometry, material
 let comicBookObjs;

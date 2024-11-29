@@ -16,7 +16,7 @@ export class ClickableImage {
             tempDiv.classList.add('temp-container-popup');
             document.body.appendChild(tempDiv);
 
-            tempDiv.addEventListener('pointerdown', () => {
+            tempDiv.addEventListener('pointerup', () => {
                 tempDiv.remove();
             })
 
@@ -30,7 +30,7 @@ export class ClickableImage {
             tempImg.src = this.imgPath;
             tempDiv.appendChild(tempImg);
 
-            tempImg.addEventListener('pointerdown', (e) => { e.stopPropagation(); });
+            tempImg.addEventListener('pointerup', (e) => { e.stopPropagation(); });
             tempImg.addEventListener('wheel', (e) => { e.stopPropagation(); }); // doesn't seem to take effect
         })
     }

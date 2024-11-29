@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import Scene from "./scene.js";
-import {remap} from "./mathUtils.js";
+import Scene from "../scene.js";
+import {remap} from "../mathUtils.js";
 
 const vsVideoPlaneSource = `
     varying vec2 vUv;

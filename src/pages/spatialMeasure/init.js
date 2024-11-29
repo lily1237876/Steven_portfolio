@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import Scene from "../scene.js";
-import {BoundingBox} from "../boundingBox.js";
-import {VideoPlane} from "../videoPlane.js";
+import Scene from "../../scene.js";
+import {BoundingBox} from "../../3dElements/boundingBox.js";
+import {VideoPlane} from "../../3dElements/videoPlane.js";
 
 let moonGroup = null;
 

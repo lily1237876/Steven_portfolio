@@ -3,16 +3,16 @@ import Constants from './src/constants.js';
 import { remapCurveEaseOut2, mix, clamp, remap, fract } from './src/mathUtils.js';
 import Scene from './src/scene.js';
 import Intersects from "./src/intersects.js";
-import VideoBackground from "./src/videoBackground.js";
+import VideoBackground from "./src/3dElements/videoBackground.js";
 import SplatViewer from "./src/splatting/Splatting.js";
-import DoraViewer from "./src/dora/init.js";
-import ComicBookViewer from "./src/comicBook/init.js";
-import ClothViewer from "./src/clothSimulation/init.js";
-import AsciiViewer from './src/bufferJS/init.js';
-import ChairViewer from './src/reer/init.js';
-import MoonMeasureViewer from './src/spatialMeasure/init.js';
-import ArboretumViewer from './src/arboretum/init.js';
-import WarpedReality from './src/warpedReality/init.js';
+import DoraViewer from "./src/pages/dora/init.js";
+import ComicBookViewer from "./src/pages/comicBook/init.js";
+import ClothViewer from "./src/pages/clothSimulation/init.js";
+import AsciiViewer from './src/pages/bufferJS/init.js';
+import ChairViewer from './src/pages/reer/init.js';
+import MoonMeasureViewer from './src/pages/spatialMeasure/init.js';
+import ArboretumViewer from './src/pages/arboretum/init.js';
+import WarpedReality from './src/pages/warpedReality/init.js';
 
 
 let camera, scene, renderer, controls;

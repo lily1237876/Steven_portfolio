@@ -1,9 +1,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons";
-import Scene from "../scene.js";
-import Intersects from "../intersects.js";
-import {clamp, remapCurveEaseIn2, remapCurveEaseOut2} from "../mathUtils.js";
-import {BoundingBox} from "../boundingBox.js";
+import Scene from "../../scene.js";
+import Intersects from "../../intersects.js";
+import {clamp, remapCurveEaseIn2, remapCurveEaseOut2} from "../../mathUtils.js";
+import {BoundingBox} from "../../3dElements/boundingBox.js";
 import { initHTML } from "./html.js";
 
 let scene;

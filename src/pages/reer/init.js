@@ -1,11 +1,11 @@
 import * as THREE from 'three';
-import Scene from "../scene.js";
+import Scene from "../../scene.js";
 import {drawPoints, scrollCb_draw_points} from "./draw_points.js";
 import {drawFullMesh, scrollCb_draw_full_mesh} from "./draw_full_mesh.js";
 import {drawExplosion, scrollCb_draw_explosion} from "./draw_explosion.js";
 import {points} from "./points.js";
 import {divisionCount_init, divisionCount_result} from "./constants.js";
-import {BoundingBox} from "../boundingBox";
+import {BoundingBox} from "../../3dElements/boundingBox.js";
 
 let bigGroup = null; // everything, including chairGroup and bounding box
 let chairGroup = null; // only includes 3 chair visualization groups

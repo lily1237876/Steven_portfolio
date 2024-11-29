@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import {CSS3DObject} from "../lib/CSS3DRenderer.js";
+import {CSS3DObject} from "../../lib/CSS3DRenderer.js";
 
 const vsBoundingBoxSource = `
     varying vec2 vUv;

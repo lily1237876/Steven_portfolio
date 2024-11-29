@@ -1,10 +1,10 @@
-import { ClickableImage } from "../htmlElements/clickableImage.js";
-import { TempBackButton } from "../htmlElements/backButton.js";
-import Intersects from "../intersects.js";
-import { GalleryGrid } from "../htmlElements/galleryGrid.js";
-import { Paragraph } from "../htmlElements/paragraph.js";
-import { Video } from "../htmlElements/video.js";
-import { SectionTitle } from "../htmlElements/sectionTitle.js";
+import { ClickableImage } from "../../htmlElements/clickableImage.js";
+import { TempBackButton } from "../../htmlElements/backButton.js";
+import Intersects from "../../intersects.js";
+import { GalleryGrid } from "../../htmlElements/galleryGrid.js";
+import { Paragraph } from "../../htmlElements/paragraph.js";
+import { Video } from "../../htmlElements/video.js";
+import { SectionTitle } from "../../htmlElements/sectionTitle.js";
 
 let WARPED_REALITY_LABEL = 'warped_reality';
 

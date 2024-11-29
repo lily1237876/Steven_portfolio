@@ -23,7 +23,7 @@ class Intersects {
         this.raycaster = new Raycaster();
 
         this.handleWheelAndPointerMove.bind(this);
-        this.handlePointerDown.bind(this);
+        this.handlePointerUp.bind(this);
     }
 
     handleWheelAndPointerMove(e) {
@@ -44,12 +44,13 @@ class Intersects {
         this.intersectedObject = this.intersects[0].object;
     }
 
-    handlePointerDown(e) {
+    handlePointerUp(e) {
         this.pointer.x = ( e.clientX / window.innerWidth ) * 2 - 1;
         this.pointer.y = - ( e.clientY / window.innerHeight ) * 2 + 1;
 
         this.raycaster.setFromCamera( this.pointer, this.camera );
         this.clicks = this.raycaster.intersectObjects( this.getObjs() );
+        document.body.style.cursor = '';
         if (this.clicks.length === 0) {
             this.clickedLabel = '';
             this.clickedObject = null;
@@ -86,8 +87,8 @@ class Intersects {
             this.handleWheelAndPointerMove(e);
         })
 
-        canvasParentDiv.addEventListener('pointerdown', (e) => {
-            this.handlePointerDown(e);
+        canvasParentDiv.addEventListener('pointerup', (e) => {
+            this.handlePointerUp(e);
         })
     }
 

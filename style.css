@@ -9,13 +9,13 @@ body {
     color: white;
 
     overflow-x: hidden;
-    /* overflow: hidden; */
+    overflow-y: hidden;
     overscroll-behavior: none;
 }
 
 #gs-canvas {
     display: block;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -43,7 +43,7 @@ body {
 }
 
 #video-background {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     /*width: 100%;*/
@@ -54,10 +54,9 @@ body {
 }
 
 #page-overview-container {
-    position: absolute;
-    top: 5%;
-    left: 5%;
-    padding: 1%;
+    position: fixed;
+    padding: 5%;
+    width: calc(100vw - 10%);
     font-size: 2vh;
     z-index: 10;
 
@@ -77,7 +76,10 @@ body {
     position: absolute;
     padding: min(10%, 50px);
     width: calc(101vw - 2 * min(10%, 50px));
-    /* height: calc(100vh - 2 * min(10%, 50px)); */
+
+    /* these two enables scrollable content, b/c it sets a height constaint, and when content within it exceeds, it becomes scrollable */
+    height: 100vh;
+    overflow-y: auto;
 
     display: flex;
     flex-direction: column;
@@ -85,6 +87,7 @@ body {
 
     z-index: 10;
     backdrop-filter: blur(64px);
+    -webkit-backdrop-filter: blur(64px);
 }
 
 .temp-container-popup {

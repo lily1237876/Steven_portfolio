@@ -55,9 +55,9 @@ body {
 
 #page-overview-container {
     position: fixed;
-    padding: 5%;
-    width: calc(100vw - 10%);
-    font-size: 2vh;
+    padding: max(2%, 20px);
+    width: calc(100vw - 2 * max(2%, 20px));
+    gap: 5px;
     z-index: 10;
 
     display: flex;
@@ -69,13 +69,15 @@ body {
 }
 
 #page-overview-description {
-    font-size: 2vh;
+    font-size: 1.8vh;
 }
 
 #temp-container {
     position: absolute;
-    padding: min(10%, 50px);
-    width: calc(101vw - 2 * min(10%, 50px));
+    padding: min(10%, 200px);
+    /* width: calc(101vw - 2 * min(10%, 200px)); */
+    box-sizing: border-box;
+    width: 100vw;
 
     /* these two enables scrollable content, b/c it sets a height constaint, and when content within it exceeds, it becomes scrollable */
     height: 100vh;

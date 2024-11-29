@@ -9,6 +9,7 @@ export class Video {
     init() {
         this.domElement = document.createElement('video');
         this.domElement.classList.add('temp-video');
+        this.domElement.classList.add('temp-video-full');
         this.domElement.autoplay = true;
         this.domElement.loop = true;
         this.domElement.muted = true;

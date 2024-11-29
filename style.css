@@ -162,6 +162,11 @@ body {
     max-height: max(min(100%, 50vh), 100px);
 }
 
+.temp-video-full {
+    width: max(min(100%, 100vw), 100px);
+    max-height: max(min(100%, 50vh), 100px);
+}
+
 .temp-section-title {
     font-size: 30px;
 }

@@ -1,5 +1,5 @@
-import { ClickableImage } from "../clickableImage.js";
-import { TempBackButton } from "../backButton.js";
+import { ClickableImage } from "../htmlElements/clickableImage.js";
+import { TempBackButton } from "../htmlElements/backButton.js";
 import Intersects from "../intersects.js";
 
 let DORA_LABEL = 'dora';
@@ -16,12 +16,8 @@ function createHTMLCb() {
     // todo Steve: add this when click on details
     //  note: if add this, then OrbitControl no longer receives pointer info, need to work on that
     let previewContainer = document.createElement('div');
-    previewContainer.id = 'detail-container';
+    previewContainer.id = 'temp-container';
     document.body.appendChild(previewContainer);
-
-    previewContainer.addEventListener('wheel', (e) => {
-        e.stopPropagation();
-    });
 
     let tempBackButton = new TempBackButton(previewContainer);
 

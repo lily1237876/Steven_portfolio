@@ -12,6 +12,7 @@ import AsciiViewer from './src/bufferJS/init.js';
 import ChairViewer from './src/reer/init.js';
 import MoonMeasureViewer from './src/spatialMeasure/init.js';
 import ArboretumViewer from './src/arboretum/init.js';
+import WarpedReality from './src/warpedReality/init.js';
 
 
 let camera, scene, renderer, controls;
@@ -19,6 +20,8 @@ let pointer, raycaster;
 let t1 = 0;
 
 function setupEventListeners() {
+
+    let canvasParentDiv = document.querySelector('#three-js-canvas');
 
     document.addEventListener('keydown', (e) => {
         // if (e.key === 'f') {
@@ -63,7 +66,7 @@ function setupEventListeners() {
 
     let wheelId = 0;
     let MIN_DELTA = 1e-7;
-    document.addEventListener('wheel', (e) => {
+    canvasParentDiv.addEventListener('wheel', (e) => {
         // moveCameraInSplatViewer();
 
         let delta = clamp(-e.deltaY, -5, 5) / 100;
@@ -170,9 +173,9 @@ function setupEventListeners() {
     }
 
     // Attach event listeners
-    document.addEventListener('touchstart', handleTouchStart, { passive: true });
-    document.addEventListener('touchmove', handleTouchMove, { passive: true });
-    document.addEventListener('touchend', handleTouchEnd);
+    canvasParentDiv.addEventListener('touchstart', handleTouchStart, { passive: true });
+    canvasParentDiv.addEventListener('touchmove', handleTouchMove, { passive: true });
+    canvasParentDiv.addEventListener('touchend', handleTouchEnd);
 
 }
 
@@ -208,6 +211,7 @@ async function init() {
     // test out the next interaction
     // first bring the camera back to where it was
     carouselArr = [];
+    carouselArr.push(WarpedReality.startWarpedRealityViewer());
     DoraViewer.startDoraViewer().then(dora => {
         carouselArr.push(dora);
         makeCarousel();

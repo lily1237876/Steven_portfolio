@@ -60,6 +60,7 @@ class Intersects {
         this.clickedObject = this.clicks[0].object;
 
         let clickCbs = this.clickCbs.get(this.clickedLabel);
+        if (!clickCbs) return;
         clickCbs.forEach(cb => cb());
     }
 
@@ -75,15 +76,17 @@ class Intersects {
     init() {
         this.camera = Scene.getInternals().camera;
 
-        document.addEventListener('wheel', (e) => {
+        let canvasParentDiv = document.querySelector('#three-js-canvas');
+
+        canvasParentDiv.addEventListener('wheel', (e) => {
             this.handleWheelAndPointerMove(e);
         })
 
-        document.addEventListener('pointermove', (e) => {
+        canvasParentDiv.addEventListener('pointermove', (e) => {
             this.handleWheelAndPointerMove(e);
         })
 
-        document.addEventListener('pointerdown', (e) => {
+        canvasParentDiv.addEventListener('pointerdown', (e) => {
             this.handlePointerDown(e);
         })
     }

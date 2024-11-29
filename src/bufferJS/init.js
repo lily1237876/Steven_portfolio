@@ -19,7 +19,7 @@ function startAsciiViewer() {
                 asciiGroup.add(thisPlane.mesh);
 
                 // add bounding box
-                let asciiBoundingBox = new BoundingBox(
+                let boundingBox = new BoundingBox(
                     new THREE.Vector3(1, 1 / thisPlane.aspect, 0.2),
                     new THREE.Vector3(),
                     'Buffer.js',
@@ -27,10 +27,10 @@ function startAsciiViewer() {
                     'Feeling Nostalgic......',
                     'Computer terminals and game consoles. How cool. I didn\'t know how exactly they work, but at least I made one that looks like \'em. Users can draw or use simple code to control motion graphics, as if they\'re rendered on an 80s monitor.'
                 );
-                let asciiBoundingBoxMesh = asciiBoundingBox.boxMesh;
-                let asciiBoundingBoxTextObjs = asciiBoundingBox.textObjs;
-                asciiGroup.add(asciiBoundingBoxMesh);
-                asciiGroup.add(asciiBoundingBoxTextObjs);
+                let boundingBoxMesh = boundingBox.boxMesh;
+                let boundingBoxTextObjs = boundingBox.textObjs;
+                asciiGroup.add(boundingBoxMesh);
+                asciiGroup.add(boundingBoxTextObjs);
             },
         }
     );
@@ -49,7 +49,7 @@ function loadVideoCb(videoElement) {
     videoPlaneMesh.material.uniforms['uVideoAspect'].value = aspect;
 
     // add bounding box
-    let asciiBoundingBox = new BoundingBox(
+    let boundingBox = new BoundingBox(
         new THREE.Vector3(1, 1 / aspect, 0.2),
         new THREE.Vector3(),
         'Buffer.js',
@@ -57,10 +57,10 @@ function loadVideoCb(videoElement) {
         'Feeling Nostalgic......',
         'Computer terminals and game consoles. How cool. I didn\'t know how exactly they work, but at least I made one that looks like \'em. Users can draw or use simple code to control motion graphics, as if they\'re rendered on an 80s monitor.'
     );
-    let asciiBoundingBoxMesh = asciiBoundingBox.boxMesh;
-    let asciiBoundingBoxTextObjs = asciiBoundingBox.textObjs;
-    asciiGroup.add(asciiBoundingBoxMesh);
-    asciiGroup.add(asciiBoundingBoxTextObjs);
+    let boundingBoxMesh = boundingBox.boxMesh;
+    let boundingBoxTextObjs = boundingBox.textObjs;
+    asciiGroup.add(boundingBoxMesh);
+    asciiGroup.add(boundingBoxTextObjs);
 }
 
 export default {

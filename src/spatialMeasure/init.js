@@ -19,7 +19,7 @@ function startMoonMeasureViewer() {
                 moonGroup.add(thisPlane.mesh);
 
                 // add bounding box
-                let asciiBoundingBox = new BoundingBox(
+                let boundingBox = new BoundingBox(
                     new THREE.Vector3(1.6, 1.6 / thisPlane.aspect, 0.2),
                     new THREE.Vector3(),
                     'Spatial Measurement Tool',
@@ -27,10 +27,10 @@ function startMoonMeasureViewer() {
                     'Collaboration project between PTC Reality Lab, MIT Media Lab, and NASA. Presented at MIT Media Lab members week',
                     'Developed a spatial measurement tool in Three.js and GLSL that analyzes lunar surface geospatial data. Besides measuring the length, area, volume of different surface regions, the tool allows user to find shortest path between 2 points, visualize surface height / steepness with shaders, and much more.'
                 );
-                let asciiBoundingBoxMesh = asciiBoundingBox.boxMesh;
-                let asciiBoundingBoxTextObjs = asciiBoundingBox.textObjs;
-                moonGroup.add(asciiBoundingBoxMesh);
-                moonGroup.add(asciiBoundingBoxTextObjs);
+                let boundingBoxMesh = boundingBox.boxMesh;
+                let boundingBoxTextObjs = boundingBox.textObjs;
+                moonGroup.add(boundingBoxMesh);
+                moonGroup.add(boundingBoxTextObjs);
             },
         }
     );

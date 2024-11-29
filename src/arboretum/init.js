@@ -20,7 +20,7 @@ function startArboretumViewer() {
                 arboretumGroup.add(thisPlane.mesh);
 
                 // add bounding box
-                let asciiBoundingBox = new BoundingBox(
+                let boundingBox = new BoundingBox(
                     new THREE.Vector3(1.6, 1.6 / thisPlane.aspect, 0.2),
                     new THREE.Vector3(),
                     'Arboretum',
@@ -28,10 +28,10 @@ function startArboretumViewer() {
                     '',
                     'Players interact with the plants by touching them & generating a unique audio-visual map of the whole journey.'
                 );
-                let asciiBoundingBoxMesh = asciiBoundingBox.boxMesh;
-                let asciiBoundingBoxTextObjs = asciiBoundingBox.textObjs;
-                arboretumGroup.add(asciiBoundingBoxMesh);
-                arboretumGroup.add(asciiBoundingBoxTextObjs);
+                let boundingBoxMesh = boundingBox.boxMesh;
+                let boundingBoxTextObjs = boundingBox.textObjs;
+                arboretumGroup.add(boundingBoxMesh);
+                arboretumGroup.add(boundingBoxTextObjs);
             },
         }
     );

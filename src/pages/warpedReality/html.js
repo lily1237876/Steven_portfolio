@@ -5,6 +5,9 @@ import { GalleryGrid } from "../../htmlElements/galleryGrid.js";
 import { Paragraph } from "../../htmlElements/paragraph.js";
 import { Video } from "../../htmlElements/video.js";
 import { SectionTitle } from "../../htmlElements/sectionTitle.js";
+import { Abstract } from "../../htmlElements/abstract.js";
+import { PageTitle } from "../../htmlElements/pageTitle.js";
+import { Quote } from "../../htmlElements/quote.js";
 
 let WARPED_REALITY_LABEL = 'warped_reality';
 
@@ -17,49 +20,27 @@ export function initHTML() {
 }
 
 function createHTMLCb() {
-    // todo Steve: add this when click on details
-    //  note: if add this, then OrbitControl no longer receives pointer info, need to work on that
     let previewContainer = document.createElement('div');
     previewContainer.id = 'temp-container';
     document.body.appendChild(previewContainer);
 
     let tempBackButton = new TempBackButton(previewContainer);
-
     
     // title
-    let title = document.createElement('div');
-    previewContainer.appendChild(title);
-    title.classList.add('temp-title');
-    title.innerHTML = 'Warped Reality';
+    let title = new PageTitle('Warped Reality');
+    previewContainer.appendChild(title.domElement);
 
     // abstract
-    let abstract = document.createElement('div');
-    previewContainer.appendChild(abstract);
-    abstract.classList.add('temp-abstract');
-
-    let a1 = document.createElement('div');
-    abstract.appendChild(a1);
-    a1.innerHTML = 'Time <br> 2022-2024';
-    a1.style.paddingRight = '10px';
-    a1.style.paddingBottom = '10px';
-
-    let a2 = document.createElement('div');
-    abstract.appendChild(a2);
-    a2.innerHTML = 'Type <br> Experiment';
-    a2.style.paddingRight = '10px';
-    a2.style.paddingBottom = '10px';
-
-    let a3 = document.createElement('div');
-    abstract.appendChild(a3);
-    a3.innerHTML = 'Role <br> Creative Developer <br> 3D Graphics & Shader Developer';
-    a3.style.paddingRight = '10px';
-    a3.style.paddingBottom = '10px';
+    let abstract = new Abstract();
+    previewContainer.appendChild(abstract.domElement);
+    abstract.addAbstractItem('Time <br> 2022-2024');
+    abstract.addAbstractItem('Type <br> Experiment');
+    abstract.addAbstractItem('Role <br> Creative Developer <br> 3D Graphics & Shader Developer');
 
     // quote
-    let quote = document.createElement('div');
-    previewContainer.appendChild(quote);
-    quote.classList.add('temp-quote');
-    quote.innerHTML = '\"What if light doesn’t travel on a straight path? What if camera doesn’t take pictures the way it used to?\"';
+    let quote = new Quote();
+    previewContainer.appendChild(quote.domElement);
+    quote.addQuote('\"What if light doesn’t travel on a straight path? What if camera doesn’t take pictures the way it used to?\"');
 
     let v1 = new Video(`${import.meta.env.BASE_URL}warpedReality/final.mp4`);
     previewContainer.appendChild(v1.domElement);
@@ -68,7 +49,7 @@ function createHTMLCb() {
     previewContainer.appendChild(s1.domElement);
     let p1 = new Paragraph();
     previewContainer.appendChild(p1.domElement);
-    p1.addHTMLToNewLine('I’m always fascinated about artworks that defy the reality. This fascination peaked when I saw David Hockney and M.C. Escher’s work, where lights are distorted and reality is warped --- they look like they were captured from different perspectives and stitched together in one frame. I came across a book analyzing the ideas behind M.C. Escher’s drawing, and came to realize that David Hockney’s drawing techniques is a lot similar to the medieval artists --- they don’t follow the principals of perspectives. Their paintings often have multiple vanishing points, and they don’t converge together. I was tempted to create something like this on my computer.');
+    p1.addHTMLToNewLine('I’m always fascinated about artworks that defy the reality. This fascination peaked when I saw David Hockney and M.C. Escher’s work, where lights are distorted and reality is warped --- they look like they were captured from different perspectives and stitched together in one frame. I came across a book analyzing the ideas behind M.C. Escher’s drawing, and came to realize that both artists\' drawing techniques is a lot similar to the medieval artists --- they don’t follow the principals of perspectives. Their paintings often have multiple vanishing points, and they don’t converge together. I was tempted to create something like this on my computer.');
 
     let g1 = new GalleryGrid();
     previewContainer.appendChild(g1.domElement);
@@ -216,7 +197,3 @@ function createHTMLCb() {
     g12.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/IMG_0088.jpg`);
     g12.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/IMG_0089.jpg`);
 }
-
-// setTimeout(() => {
-//     createHTMLCb();
-// }, 10);

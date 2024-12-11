@@ -8,12 +8,8 @@ import { Abstract } from "../htmlElements/abstract.js";
 import { PageTitle } from "../htmlElements/pageTitle.js";
 import { Quote } from "../htmlElements/quote.js";
 
-// create an 'html template' file, that has a top 'go back' button and a top title
-// when click a 3D object, we fade in the entire html div, animate the opacity, and transform translateY from -10px to 0
-// when click the back button, we fade out the entire html div, animate in reverse
-
 function createHTMLCb() {
-
+    
     let previewContainer = document.createElement('div');
     previewContainer.id = 'temp-container';
     document.body.appendChild(previewContainer);

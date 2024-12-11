@@ -1,9 +1,12 @@
 import * as THREE from "three";
 import Scene from "../../scene.js";
+import Intersects from "../../intersects.js";
 import {BoundingBox} from "../../3dElements/boundingBox.js";
 import {VideoPlane} from "../../3dElements/videoPlane.js";
 
 let arboretumGroup = null;
+
+let ARBORETUM_LABEL = 'arboretum';
 
 function startArboretumViewer() {
     let scene = Scene.getInternals().scene;
@@ -18,6 +21,16 @@ function startArboretumViewer() {
         {
             onLoad: (thisPlane) => {
                 arboretumGroup.add(thisPlane.mesh);
+
+                Scene.traverseGroupToAddLabel(thisPlane.mesh, ARBORETUM_LABEL);
+                Intersects.add(ARBORETUM_LABEL, thisPlane.mesh);
+
+                console.log(Intersects);
+            
+                Intersects.addClickCb(ARBORETUM_LABEL, () => {
+                    console.log('sjhould change page')
+                    window.location.href = `${import.meta.env.BASE_URL}arboretum/index.html`;
+                });
 
                 // add bounding box
                 let boundingBox = new BoundingBox(

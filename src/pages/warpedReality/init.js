@@ -26,7 +26,7 @@ function startWarpedRealityViewer() {
                 Intersects.add(WARPED_REALITY_LABEL, thisPlane.mesh);
 
                 Intersects.addClickCb(WARPED_REALITY_LABEL, () => {
-                    window.location.href = `${import.meta.env.BASE_URL}/warpedReality/index.html`;
+                    window.location.href = `${import.meta.env.BASE_URL}warpedReality/index.html`;
                 });
 
                 // add bounding box

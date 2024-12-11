@@ -47,7 +47,7 @@ async function loadModels() {
                 Intersects.add(DORA_LABEL, doraObjs);
 
                 Intersects.addClickCb(DORA_LABEL, () => {
-                    window.location.href = `${import.meta.env.BASE_URL}/dora/index.html`;
+                    window.location.href = `${import.meta.env.BASE_URL}dora/index.html`;
                 });
 
                 duck = doraObjs.children[0];

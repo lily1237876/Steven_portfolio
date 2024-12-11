@@ -226,6 +226,9 @@ async function init() {
     carouselArr.push(ChairViewer.startChairViewer());
     carouselArr.push(MoonMeasureViewer.startMoonMeasureViewer());
 
+    // currently the projects might be too close to each other
+    // what if it's designed like Mac's dock --- only center project gets zoomed in, otherwise it's smaller
+
     // add micro-interactions --- move mouse camera pan around
     // add random graphics design portfolio
     //  the zip file I sent to Valentin when first applying for this job

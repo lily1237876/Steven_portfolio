@@ -10,6 +10,7 @@ export class Link {
 
     init() {
         this.domElement = document.createElement('a');
+        this.domElement.classList.add('temp-link');
         this.domElement.innerHTML = this.html;
         this.domElement.href = this.link;
         this.domElement.referrerPolicy = 'no-referrer';

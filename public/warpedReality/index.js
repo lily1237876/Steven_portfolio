@@ -1,30 +1,22 @@
-import { ClickableImage } from "../../htmlElements/clickableImage.js";
-import { TempBackButton } from "../../htmlElements/backButton.js";
-import Intersects from "../../intersects.js";
-import { GalleryGrid } from "../../htmlElements/galleryGrid.js";
-import { Paragraph } from "../../htmlElements/paragraph.js";
-import { Video } from "../../htmlElements/video.js";
-import { SectionTitle } from "../../htmlElements/sectionTitle.js";
-import { Abstract } from "../../htmlElements/abstract.js";
-import { PageTitle } from "../../htmlElements/pageTitle.js";
-import { Quote } from "../../htmlElements/quote.js";
-
-let WARPED_REALITY_LABEL = 'warped_reality';
+import { ClickableImage } from "../htmlElements/clickableImage.js";
+import { TempBackButton } from "../htmlElements/backButton.js";
+import { GalleryGrid } from "../htmlElements/galleryGrid.js";
+import { Paragraph } from "../htmlElements/paragraph.js";
+import { Video } from "../htmlElements/video.js";
+import { SectionTitle } from "../htmlElements/sectionTitle.js";
+import { Abstract } from "../htmlElements/abstract.js";
+import { PageTitle } from "../htmlElements/pageTitle.js";
+import { Quote } from "../htmlElements/quote.js";
 
 // create an 'html template' file, that has a top 'go back' button and a top title
 // when click a 3D object, we fade in the entire html div, animate the opacity, and transform translateY from -10px to 0
 // when click the back button, we fade out the entire html div, animate in reverse
 
-export function initHTML() {
-    Intersects.addClickCb(WARPED_REALITY_LABEL, createHTMLCb);
-}
-
 function createHTMLCb() {
+
     let previewContainer = document.createElement('div');
     previewContainer.id = 'temp-container';
     document.body.appendChild(previewContainer);
-
-    let tempBackButton = new TempBackButton(previewContainer);
     
     // title
     let title = new PageTitle('Warped Reality');
@@ -42,7 +34,7 @@ function createHTMLCb() {
     previewContainer.appendChild(quote.domElement);
     quote.addQuote('\"What if light doesn’t travel on a straight path? What if camera doesn’t take pictures the way it used to?\"');
 
-    let v1 = new Video(`${import.meta.env.BASE_URL}warpedReality/final.mp4`);
+    let v1 = new Video(`final.mp4`);
     previewContainer.appendChild(v1.domElement);
 
     let s1 = new SectionTitle('Introduction');
@@ -53,9 +45,9 @@ function createHTMLCb() {
 
     let g1 = new GalleryGrid();
     previewContainer.appendChild(g1.domElement);
-    g1.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/david_hockney.png`);
-    g1.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/david_hockney_2.jpeg`);
-    g1.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/IMG_0082.jpg`);
+    g1.addImageSrc(`david_hockney.png`);
+    g1.addImageSrc(`david_hockney_2.jpeg`);
+    g1.addImageSrc(`IMG_0082.jpg`);
 
 
     let s2 = new SectionTitle('Modify ray distribution');
@@ -63,25 +55,25 @@ function createHTMLCb() {
     let p2 = new Paragraph();
     previewContainer.appendChild(p2.domElement);
     p2.addHTMLToNewLine('The warping effect has to do with the uneven distribution of generated light rays. For my first attempt, I decided to leverage ray-marching to easily control how light rays are distributed. Ray-marching is a technique, where for every pixel on the screen, a light ray is generated and shot into the screen, and we color the pixel depending on the objects the ray hits. I wanted to try something that was fast and easy to manipulate, therefore I made the center part of the screen generate sparser light rays & edge part of the screen generate denser light rays over time, and got an inflation effect similar to M.C. Escher’s Balcony, 1945.');
-    p2.addHTMLToNewLine(`You can try it out in my <a href=\'https://www.shadertoy.com/view/lflGRs\' target="_blank" rel="noopener noreferrer">ShaderToy</a>.`);
+    p2.addHTMLToNewLine(`You can try it out in my <a class=\'temp-link\' href=\'https://www.shadertoy.com/view/lflGRs\' target="_blank" rel="noopener noreferrer">ShaderToy</a>.`);
     // p2.addHTMLToNewLine(`You can try it out in my ${new Link('ShaderToy', 'https://www.shadertoy.com/view/lflGRs').domElement}`);
 
     let g2 = new GalleryGrid();
     previewContainer.appendChild(g2.domElement);
-    g2.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/IMG_0079.jpg`);
-    g2.addVideoSrc(`${import.meta.env.BASE_URL}warpedReality/non_uniform_ray.MP4`);
+    g2.addImageSrc(`IMG_0079.jpg`);
+    g2.addVideoSrc(`non_uniform_ray.MP4`);
 
     let s3 = new SectionTitle('Modify ray travel direction');
     previewContainer.appendChild(s3.domElement);
     let p3 = new Paragraph();
     previewContainer.appendChild(p3.domElement);
     p3.addHTMLToNewLine('M.C. Escher also tried to manipulate light rays directly, which can be seen in Paint Gallery, 1956. I wanted to create a similar effect with ray-marching. For every light ray, instead of traveling through space in a straight line, I made them travel in a 3D sin wave pattern, achieving this funky effect👇.');
-    p3.addHTMLToNewLine(`You can try it out in my <a href=\'https://www.shadertoy.com/view/XcBGzz\' target="_blank" rel="noopener noreferrer">ShaderToy</a>.`);
+    p3.addHTMLToNewLine(`You can try it out in my <a class=\'temp-link\' href=\'https://www.shadertoy.com/view/XcBGzz\' target="_blank" rel="noopener noreferrer">ShaderToy</a>.`);
 
     let g3 = new GalleryGrid();
     previewContainer.appendChild(g3.domElement);
-    g3.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/IMG_0081.jpg`);
-    g3.addVideoSrc(`${import.meta.env.BASE_URL}warpedReality/sin_wave_ray.MP4`);
+    g3.addImageSrc(`IMG_0081.jpg`);
+    g3.addVideoSrc(`sin_wave_ray.MP4`);
 
     let s4 = new SectionTitle('Ray-tracing');
     previewContainer.appendChild(s4.domElement);
@@ -92,8 +84,8 @@ function createHTMLCb() {
 
     let g4 = new GalleryGrid();
     previewContainer.appendChild(g4.domElement);
-    g4.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/0.01_5_30_1_rays.png`);
-    g4.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/0.01_5_30_1_render.png`);
+    g4.addImageSrc(`0.01_5_30_1_rays.png`);
+    g4.addImageSrc(`0.01_5_30_1_render.png`);
 
     let p5 = new Paragraph();
     previewContainer.appendChild(p5.domElement);
@@ -101,8 +93,8 @@ function createHTMLCb() {
 
     let g5 = new GalleryGrid();
     previewContainer.appendChild(g5.domElement);
-    g5.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/0.02_5_30_1_rays.png`);
-    g5.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/0.02_5_30_1_render.png`);
+    g5.addImageSrc(`0.02_5_30_1_rays.png`);
+    g5.addImageSrc(`0.02_5_30_1_render.png`);
 
     let p6 = new Paragraph();
     previewContainer.appendChild(p6.domElement);
@@ -110,8 +102,8 @@ function createHTMLCb() {
     
     let g6 = new GalleryGrid();
     previewContainer.appendChild(g6.domElement);
-    g6.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/0.01_100_30_1_rays.png`);
-    g6.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/0.01_100_30_1_render.png`);
+    g6.addImageSrc(`0.01_100_30_1_rays.png`);
+    g6.addImageSrc(`0.01_100_30_1_render.png`);
 
     let p7 = new Paragraph();
     previewContainer.appendChild(p7.domElement);
@@ -119,8 +111,8 @@ function createHTMLCb() {
 
     let g7 = new GalleryGrid();
     previewContainer.appendChild(g7.domElement);
-    g7.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/0.01_5_60_1_rays.png`);
-    g7.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/0.01_5_60_1_render.png`);
+    g7.addImageSrc(`0.01_5_60_1_rays.png`);
+    g7.addImageSrc(`0.01_5_60_1_render.png`);
 
     let p8 = new Paragraph();
     previewContainer.appendChild(p8.domElement);
@@ -128,8 +120,8 @@ function createHTMLCb() {
 
     let g8 = new GalleryGrid();
     previewContainer.appendChild(g8.domElement);
-    g8.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/0.01_5_30_0_rays.png`);
-    g8.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/0.01_5_30_0_render.png`);
+    g8.addImageSrc(`0.01_5_30_0_rays.png`);
+    g8.addImageSrc(`0.01_5_30_0_render.png`);
 
     let p9 = new Paragraph();
     previewContainer.appendChild(p9.domElement);
@@ -137,7 +129,7 @@ function createHTMLCb() {
     p9.addHTMLToNewLine('<br>');
     p9.addHTMLToNewLine('👇Here’s a video where we can observe how different parameters affect the final rendered image, in a continuous way.');
 
-    let v2 = new Video(`${import.meta.env.BASE_URL}warpedReality/ray_tracing.mp4`);
+    let v2 = new Video(`ray_tracing.mp4`);
     previewContainer.appendChild(v2.domElement);
 
     let s5 = new SectionTitle('Final results --- build my custom slit-scan renderer');
@@ -148,10 +140,10 @@ function createHTMLCb() {
 
     let g10 = new GalleryGrid();
     previewContainer.appendChild(g10.domElement);
-    g10.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/slit_scan_1.gif`);
-    g10.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/slit_scan_2.gif`);
-    g10.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/IMG_0083.jpg`);
-    g10.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/IMG_0084.jpg`);
+    g10.addImageSrc(`slit_scan_1.gif`);
+    g10.addImageSrc(`slit_scan_2.gif`);
+    g10.addImageSrc(`IMG_0083.jpg`);
+    g10.addImageSrc(`IMG_0084.jpg`);
 
     let p11 = new Paragraph();
     previewContainer.appendChild(p11.domElement);
@@ -160,21 +152,21 @@ function createHTMLCb() {
 
     let g11 = new GalleryGrid();
     previewContainer.appendChild(g11.domElement);
-    g11.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/interval_loop.png`);
-    g11.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/orbit_function.png`);
+    g11.addImageSrc(`interval_loop.png`);
+    g11.addImageSrc(`orbit_function.png`);
 
     let p12 = new Paragraph();
     previewContainer.appendChild(p12.domElement);
     p12.addHTMLToNewLine('Putting everything together, I used this technique on a car model. The bottom left screen shows the original model, and the center image shows the warping effect.');
 
-    let v3 = new Video(`${import.meta.env.BASE_URL}warpedReality/car_warp.mp4`);
+    let v3 = new Video(`car_warp.mp4`);
     previewContainer.appendChild(v3.domElement);
 
     let p13 = new Paragraph();
     previewContainer.appendChild(p13.domElement);
     p13.addHTMLToNewLine('I’d say that’s pretty darn trippy! Now let’s try something more abstract. I picked out this hollow cube.');
 
-    let v4 = new Video(`${import.meta.env.BASE_URL}warpedReality/cube_warp.mp4`);
+    let v4 = new Video(`cube_warp.mp4`);
     previewContainer.appendChild(v4.domElement);
 
     let p14 = new Paragraph();
@@ -183,7 +175,7 @@ function createHTMLCb() {
     p14.addHTMLToNewLine('<br>');
     p14.addHTMLToNewLine('Finally, I threw in some animations and produced this:');
 
-    let v5 = new Video(`${import.meta.env.BASE_URL}warpedReality/final.mp4`);
+    let v5 = new Video(`final.mp4`);
     previewContainer.appendChild(v5.domElement);
 
     let p15 = new Paragraph();
@@ -192,8 +184,12 @@ function createHTMLCb() {
 
     let g12 = new GalleryGrid();
     previewContainer.appendChild(g12.domElement);
-    g12.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/IMG_0086.jpg`);
-    g12.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/IMG_0087.jpg`);
-    g12.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/IMG_0088.jpg`);
-    g12.addImageSrc(`${import.meta.env.BASE_URL}warpedReality/IMG_0089.jpg`);
+    g12.addImageSrc(`IMG_0086.jpg`);
+    g12.addImageSrc(`IMG_0087.jpg`);
+    g12.addImageSrc(`IMG_0088.jpg`);
+    g12.addImageSrc(`IMG_0089.jpg`);
+}
+
+window.onload = () => {
+    createHTMLCb();
 }

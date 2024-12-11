@@ -3,7 +3,6 @@ import Scene from "../../scene.js";
 import Intersects from "../../intersects.js";
 import {BoundingBox} from "../../3dElements/boundingBox.js";
 import {VideoPlane} from "../../3dElements/videoPlane.js";
-import { initHTML } from "./html.js";
 
 let warpedRealityGroup = null;
 
@@ -26,7 +25,9 @@ function startWarpedRealityViewer() {
                 Scene.traverseGroupToAddLabel(thisPlane.mesh, WARPED_REALITY_LABEL);
                 Intersects.add(WARPED_REALITY_LABEL, thisPlane.mesh);
 
-                initHTML();
+                Intersects.addClickCb(WARPED_REALITY_LABEL, () => {
+                    window.location.href = `${import.meta.env.BASE_URL}/warpedReality/index.html`;
+                });
 
                 // add bounding box
                 let boundingBox = new BoundingBox(

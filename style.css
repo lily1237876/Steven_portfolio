@@ -149,6 +149,10 @@ body {
     font-style: italic;
 }
 
+.temp-link {
+    color: yellow;
+}
+
 .temp-img {
     object-fit: contain;
     width: max(min(100%, 50vw), 100px);

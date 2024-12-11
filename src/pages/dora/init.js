@@ -4,7 +4,6 @@ import Scene from "../../scene.js";
 import Intersects from "../../intersects.js";
 import {clamp, remapCurveEaseIn2, remapCurveEaseOut2} from "../../mathUtils.js";
 import {BoundingBox} from "../../3dElements/boundingBox.js";
-import { initHTML } from "./html.js";
 
 let scene;
 let loader;
@@ -19,8 +18,6 @@ let isActive = true;
 async function startDoraViewer() {
     loader = new GLTFLoader();
     scene = Scene.getInternals().scene;
-
-    initHTML();
 
     // let camPos = new THREE.Vector3(0, 0, 2);
     // let camTargetPos = new THREE.Vector3(0, 0, 0);
@@ -48,6 +45,10 @@ async function loadModels() {
                 // todo Steve: to enable raycasting onto any object / entire doraGroup, and get the intersect information from index.js, add below 2 lines
                 Scene.traverseGroupToAddLabel(doraObjs, DORA_LABEL);
                 Intersects.add(DORA_LABEL, doraObjs);
+
+                Intersects.addClickCb(DORA_LABEL, () => {
+                    window.location.href = `${import.meta.env.BASE_URL}/dora/index.html`;
+                });
 
                 duck = doraObjs.children[0];
                 woodenHorse = doraObjs.children[1];

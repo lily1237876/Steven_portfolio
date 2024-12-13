@@ -184,11 +184,19 @@ function setupEventListeners() {
     setInterval(() => {
         applyFilters();
     }, 1000);
-    // applyFilters();
     window.addEventListener("hashchange", applyFilters);
+
+    // update hash filters on page load
+    updateFilters();
 
     let categoryButtons = Array.from(document.querySelectorAll('.page-overview-categories'));
     categoryButtons.forEach((button) => {
+        // update button initial status based on window location hash
+        if (carouselCategories.includes(button.dataset.category)) {
+            button.classList.add('page-overview-categories-on');
+        }
+
+        // add event listeners
         button.addEventListener('pointerup', (e) => {
             e.stopPropagation();
 
@@ -215,18 +223,29 @@ function setupEventListeners() {
     })
 }
 
-function applyFilters() {
+function updateFilters() {
     let currentHash = window.location.hash.slice(1);
     let params = new URLSearchParams(currentHash);
+    carouselCategory = params.get("category");
+    if (!carouselCategory) {
+        carouselCategories = [];
+        window.localStorage.setItem('carouselCategories', '');
+        return;
+    }
+    
+    carouselCategories = carouselCategory.split(',');
+    window.localStorage.setItem('carouselCategories', carouselCategories);
+}
 
-    let carouselCategory = params.get("category");
+function applyFilters() {
+    updateFilters();
+
     if (!carouselCategory) { // show everything
         if (carouselArrRest.length === 0) return;
         carouselArr = [...carouselArr, ...carouselArrRest];
         carouselArrRest = [];
         return;
     }
-    carouselCategories = carouselCategory.split(',');
 
     for (let i = 0; i < carouselArr.length; i++) {
         let info = carouselArr[i];
@@ -246,7 +265,8 @@ function applyFilters() {
 
 let carouselArr = null; // store all the projects that match the filter
 let carouselArrRest = null; // store all the projects that don't match the filter
-let carouselCategories = [];
+let carouselCategory = null; // an object of hash category, used to get carouselCategories[] array
+let carouselCategories = []; // an array of categories, used to filter out the matched projects
 
 async function init() {
 
@@ -328,7 +348,7 @@ let carouselGap = 1.8;
 
 let a_big_number = 420;
 function makeCarousel() {
-    let carouselOffset = 2;
+    let carouselOffset = carouselArr.length / 2;
     let wholeCarousel = carouselGap * carouselArr.length;
     for (let i = 0; i < carouselArr.length; i++) {
         let obj = carouselArr[i][0];

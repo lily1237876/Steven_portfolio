@@ -14,13 +14,14 @@ const fsAsciiVideoSource = `
     uniform float uVideoAspect;
     uniform float uGeometryAspect;
     uniform sampler2D uVideoTexture;
+    uniform float uAlphaLow; // sum of rgb color below this alpha will be regarded as transparent
     
     void main() {
         vec2 uv = vUv;
         uv.x = (uv.x - 0.5) * uGeometryAspect / uVideoAspect + 0.5;
         vec4 color = texture(uVideoTexture, uv);
         float a = 1.;
-        if ((color.r + color.g + color.b) / 3. < 0.01) a = 0.;
+        if ((color.r + color.g + color.b) / 3. < uAlphaLow) a = 0.;
         gl_FragColor = vec4(color.rgb, a);
     }
 `;
@@ -77,6 +78,7 @@ export class VideoPlane {
                 uVideoTexture: {value: null},
                 uGeometryAspect: {value: this.width / this.height},
                 uVideoAspect: {value: this.width / this.height},
+                uAlphaLow: {value: 0.01},
             }
         })
         this.mesh = new THREE.Mesh(geo, mat);

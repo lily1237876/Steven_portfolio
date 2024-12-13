@@ -20,6 +20,8 @@ function startGSViewerProject() {
             onLoad: (thisPlane) => {
                 gsGroup.add(thisPlane.mesh);
 
+                thisPlane.mesh.material.uniforms['uAlphaLow'].value = 0; // set this alpha value to 0 --- essentially keeping the black background of this video visible
+
                 Scene.traverseGroupToAddLabel(thisPlane.mesh, GS_LABEL);
                 Intersects.add(GS_LABEL, thisPlane.mesh);
 

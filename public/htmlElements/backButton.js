@@ -1,6 +1,7 @@
 export class TempBackButton {
-    constructor(parent) {
+    constructor(parent, isHomeButton = false) {
         this.parent = parent;
+        this.isHomeButton = isHomeButton;
         this.domElement = null;
 
         this.init();
@@ -16,6 +17,10 @@ export class TempBackButton {
         this.domElement.classList.add('temp-back-button');
         this.parent.appendChild(this.domElement);
         this.domElement.addEventListener('pointerdown', () => {
+            if (this.isHomeButton) {
+                window.location.href = `../`;
+                return;
+            }
             this.parent.remove();
         })
     }

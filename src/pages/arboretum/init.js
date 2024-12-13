@@ -24,8 +24,6 @@ function startArboretumViewer() {
 
                 Scene.traverseGroupToAddLabel(thisPlane.mesh, ARBORETUM_LABEL);
                 Intersects.add(ARBORETUM_LABEL, thisPlane.mesh);
-
-                console.log(Intersects);
             
                 Intersects.addClickCb(ARBORETUM_LABEL, () => {
                     console.log('sjhould change page')

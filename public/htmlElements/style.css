@@ -4,7 +4,7 @@ body {
     width: 100vw;
     font-family: monospace;
     font-weight: 100;
-    background: black;
+    background: #232323;
     text-shadow: 0 0 3px black;
     color: white;
 
@@ -125,6 +125,7 @@ body {
 
 .temp-text {
     font-size: 15px;
+    line-height: 1.5;
 }
 
 .temp-grid-gallery-old {

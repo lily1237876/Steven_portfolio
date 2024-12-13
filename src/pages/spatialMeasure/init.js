@@ -1,9 +1,11 @@
 import * as THREE from "three";
 import Scene from "../../scene.js";
+import Intersects from "../../intersects.js";
 import {BoundingBox} from "../../3dElements/boundingBox.js";
 import {VideoPlane} from "../../3dElements/videoPlane.js";
 
 let moonGroup = null;
+let MEASURE_LABEL = 'spatialMeasure';
 
 function startMoonMeasureViewer() {
     let scene = Scene.getInternals().scene;
@@ -17,6 +19,13 @@ function startMoonMeasureViewer() {
         {
             onLoad: (thisPlane) => {
                 moonGroup.add(thisPlane.mesh);
+
+                Scene.traverseGroupToAddLabel(thisPlane.mesh, MEASURE_LABEL);
+                Intersects.add(MEASURE_LABEL, thisPlane.mesh);
+
+                Intersects.addClickCb(MEASURE_LABEL, () => {
+                    window.location.href = `${import.meta.env.BASE_URL}spatialMeasure/index.html`;
+                });
 
                 // add bounding box
                 let boundingBox = new BoundingBox(

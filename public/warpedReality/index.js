@@ -13,6 +13,8 @@ function createHTMLCb() {
     let previewContainer = document.createElement('div');
     previewContainer.id = 'temp-container';
     document.body.appendChild(previewContainer);
+
+    let backButton = new TempBackButton(previewContainer, true);
     
     // title
     let title = new PageTitle('Warped Reality');
@@ -75,7 +77,7 @@ function createHTMLCb() {
     previewContainer.appendChild(s4.domElement);
     let p4 = new Paragraph();
     previewContainer.appendChild(p4.domElement);
-    p4.addHTMLToNewLine('To have more control over the directions of generated light rays, I modified Garrett Johnson’s three-gpu-pathtracer (https://github.com/gkjohnson/three-gpu-pathtracer). Using a procedurally generated curve controlled by the sliders, I gained more control over the light ray’s bending factor (with individual control over camera-space x & y directions), light path’s length, and the relative position of the final light ray along the light path. These factors allowed me to gain more intuition on how warping light can affect the final outcome, by controlling variables.');
+    p4.addHTMLToNewLine('To have more control over the directions of generated light rays, I modified Garrett Johnson’s <a class=\'temp-link\' href=\'https://github.com/gkjohnson/three-gpu-pathtracer\' target="_blank" rel="noopener noreferrer">three-gpu-pathtracer</a>. Using a procedurally generated curve controlled by the sliders, I gained more control over the light ray’s bending factor (with individual control over camera-space x & y directions), light path’s length, and the relative position of the final light ray along the light path. These factors allowed me to gain more intuition on how warping light can affect the final outcome, by controlling variables.');
     p4.addHTMLToNewLine(`Images on the left visualize how the rays travel through the space --- blue arrows indicates ray starting positions & directions, green curve indicates the entire ray travel paths, and yellow arrow indicates ray final positions & directions. In a typical ray tracer, all the rays are generated from the blue arrows. I would like to generate rays from non-traditional positions & directions, hence images on the right shows the rendering results of shooting rays from the yellow arrows.`);
 
     let g4 = new GalleryGrid();

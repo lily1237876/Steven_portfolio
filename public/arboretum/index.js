@@ -1,3 +1,4 @@
+import { TempBackButton } from "../htmlElements/backButton.js";
 import { GalleryGrid } from "../htmlElements/galleryGrid.js";
 import { Paragraph } from "../htmlElements/paragraph.js";
 import { Video } from "../htmlElements/video.js";
@@ -11,6 +12,8 @@ function createHTMLCb() {
     let previewContainer = document.createElement('div');
     previewContainer.id = 'temp-container';
     document.body.appendChild(previewContainer);
+
+    let backButton = new TempBackButton(previewContainer, true);
 
     // title
     let title = new PageTitle('Arboretum');

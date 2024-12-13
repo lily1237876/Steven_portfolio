@@ -25,7 +25,7 @@ function createHTMLCb() {
     previewContainer.appendChild(abstract.domElement);
     abstract.addAbstractItem('Time <br> 2022-2024');
     abstract.addAbstractItem('Type <br> Professional');
-    abstract.addAbstractItem('Role <br> Project Lead <br> Interaction Designer <br> 3D Graphics & Shader');
+    abstract.addAbstractItem('Role <br> Project Lead <br> Spatial Interaction Designer <br> 3D Graphics & Shader');
 
     // quote
     let quote = new Quote();

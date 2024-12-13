@@ -13,6 +13,7 @@ import ChairViewer from './src/pages/reer/init.js';
 import MoonMeasureViewer from './src/pages/spatialMeasure/init.js';
 import ArboretumViewer from './src/pages/arboretum/init.js';
 import WarpedReality from './src/pages/warpedReality/init.js';
+import SpatialCursorViewer from './src/pages/spatialCursor/init.js';
 
 
 let camera, scene, renderer, controls;
@@ -223,6 +224,7 @@ async function init() {
     carouselArr.push(ClothViewer.startCloth());
     carouselArr.push(ArboretumViewer.startArboretumViewer());
     carouselArr.push(AsciiViewer.startAsciiViewer());
+    carouselArr.push(SpatialCursorViewer.startSpatialCursorViewer());
     carouselArr.push(ChairViewer.startChairViewer());
     carouselArr.push(MoonMeasureViewer.startMoonMeasureViewer());
 

@@ -14,6 +14,7 @@ import MoonMeasureViewer from './src/pages/spatialMeasure/init.js';
 import ArboretumViewer from './src/pages/arboretum/init.js';
 import WarpedReality from './src/pages/warpedReality/init.js';
 import SpatialCursorViewer from './src/pages/spatialCursor/init.js';
+import GSViewerProject from './src/pages/gsViewer/init.js';
 
 
 let camera, scene, renderer, controls;
@@ -178,9 +179,74 @@ function setupEventListeners() {
     canvasParentDiv.addEventListener('touchmove', handleTouchMove, { passive: true });
     canvasParentDiv.addEventListener('touchend', handleTouchEnd);
 
+
+    // handle hash changes
+    setInterval(() => {
+        applyFilters();
+    }, 1000);
+    // applyFilters();
+    window.addEventListener("hashchange", applyFilters);
+
+    let categoryButtons = Array.from(document.querySelectorAll('.page-overview-categories'));
+    categoryButtons.forEach((button) => {
+        button.addEventListener('pointerup', (e) => {
+            e.stopPropagation();
+
+            let newCategory = button.dataset.category;
+
+            if (button.classList.contains('page-overview-categories-on')) {
+                // turn off that category
+                button.classList.remove('page-overview-categories-on');
+
+                if (!carouselCategories.includes(newCategory)) return;
+                carouselCategories.splice(carouselCategories.indexOf(newCategory), 1);
+                let hashString = `category=${carouselCategories.join(',')}`;
+                window.location.hash = hashString;
+            } else {
+                // turn on that category
+                button.classList.add('page-overview-categories-on');
+                
+                if (carouselCategories.includes(newCategory)) return;
+                carouselCategories.push(newCategory);
+                let hashString = `category=${carouselCategories.join(',')}`;
+                window.location.hash = hashString;
+            }
+        })
+    })
 }
 
-let carouselArr = [];
+function applyFilters() {
+    let currentHash = window.location.hash.slice(1);
+    let params = new URLSearchParams(currentHash);
+
+    let carouselCategory = params.get("category");
+    if (!carouselCategory) { // show everything
+        if (carouselArrRest.length === 0) return;
+        carouselArr = [...carouselArr, ...carouselArrRest];
+        carouselArrRest = [];
+        return;
+    }
+    carouselCategories = carouselCategory.split(',');
+
+    for (let i = 0; i < carouselArr.length; i++) {
+        let info = carouselArr[i];
+        if (carouselCategories.includes(info[1])) continue;
+        carouselArrRest.push(info);
+        carouselArr.splice(i, 1);
+    }
+    for (let i = 0; i < carouselArrRest.length; i++) {
+        let info = carouselArrRest[i];
+        if (!carouselCategories.includes(info[1])) continue;
+        carouselArr.push(info);
+        carouselArrRest.splice(i, 1);
+    }
+    // console.log(carouselArr, carouselArrRest);
+    makeCarousel();
+}
+
+let carouselArr = null; // store all the projects that match the filter
+let carouselArrRest = null; // store all the projects that don't match the filter
+let carouselCategories = [];
 
 async function init() {
 
@@ -211,22 +277,25 @@ async function init() {
 
     // test out the next interaction
     // first bring the camera back to where it was
+    carouselArrRest = [];
     carouselArr = [];
-    carouselArr.push(WarpedReality.startWarpedRealityViewer());
+
+    carouselArr.push([WarpedReality.startWarpedRealityViewer(), 'computational-art']);
     DoraViewer.startDoraViewer().then(dora => {
-        carouselArr.push(dora);
+        carouselArr.push([dora, 'game']);
         makeCarousel();
     });
     ComicBookViewer.startComicBook().then(comicBook => {
-        carouselArr.push(comicBook);
+        carouselArr.push([comicBook, 'computational-art']);
         makeCarousel();
     });
-    carouselArr.push(ClothViewer.startCloth());
-    carouselArr.push(ArboretumViewer.startArboretumViewer());
-    carouselArr.push(AsciiViewer.startAsciiViewer());
-    carouselArr.push(SpatialCursorViewer.startSpatialCursorViewer());
-    carouselArr.push(ChairViewer.startChairViewer());
-    carouselArr.push(MoonMeasureViewer.startMoonMeasureViewer());
+    carouselArr.push([ClothViewer.startCloth(), 'computational-art']);
+    carouselArr.push([ArboretumViewer.startArboretumViewer(), 'game']);
+    carouselArr.push([AsciiViewer.startAsciiViewer(), 'computational-art']);
+    carouselArr.push([SpatialCursorViewer.startSpatialCursorViewer(), 'spatial-interface']);
+    carouselArr.push([MoonMeasureViewer.startMoonMeasureViewer(), 'spatial-interface']);
+    carouselArr.push([GSViewerProject.startGSViewerProject(), 'spatial-interface']);
+    carouselArr.push([ChairViewer.startChairViewer(), 'client']);
 
     // currently the projects might be too close to each other
     // what if it's designed like Mac's dock --- only center project gets zoomed in, otherwise it's smaller
@@ -255,16 +324,22 @@ async function init() {
 
 let centerIndex = 0;
 let centerOffset = 0;
-let carouselGap = 1.6;
+let carouselGap = 1.8;
 
 let a_big_number = 420;
 function makeCarousel() {
     let carouselOffset = 2;
     let wholeCarousel = carouselGap * carouselArr.length;
     for (let i = 0; i < carouselArr.length; i++) {
-        let obj = carouselArr[i];
+        let obj = carouselArr[i][0];
         let xOffset = (carouselGap * (i + carouselOffset) + t1 + a_big_number * wholeCarousel) % wholeCarousel - carouselOffset * carouselGap;
         obj.position.x = xOffset;
+
+        obj.scale.set(1, 1, 1);
+    }
+    for (let i = 0; i < carouselArrRest.length; i++) {
+        let obj = carouselArrRest[i][0];
+        obj.scale.set(0, 0, 0);
     }
     // centerIndex = Math.round((t + a_big_number * wholeCarousel) % wholeCarousel);
 }

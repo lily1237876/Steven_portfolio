@@ -32,20 +32,20 @@ function createHTMLCb() {
     previewContainer.appendChild(quote.domElement);
     quote.addQuote('\"How do we measure a space? How can we visualize spatial properties?\"');
 
-    previewContainer.innerHTML += `<iframe width="560" height="315" src="https://www.youtube.com/embed/oFZ_Nhl7UVc?si=278S9f0mQvIG_mwC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+    // previewContainer.innerHTML += `<iframe width="560" height="315" src="https://www.youtube.com/embed/oFZ_Nhl7UVc?si=278S9f0mQvIG_mwC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
 
-    previewContainer.innerHTML += `<div style="position: relative; width: 100%; padding-bottom: 56.25%; /* 16:9 aspect ratio */">
-    <iframe 
-        src="https://www.youtube.com/embed/oFZ_Nhl7UVc?si=x3UspRgI-wSDCVc2" 
-        title="YouTube video player" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
-        allowfullscreen
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-    ></iframe>
-</div>
-`;
+//     previewContainer.innerHTML += `<div style="position: relative; width: 100%; padding-bottom: 56.25%; /* 16:9 aspect ratio */">
+//     <iframe 
+//         src="https://www.youtube.com/embed/oFZ_Nhl7UVc?si=x3UspRgI-wSDCVc2" 
+//         title="YouTube video player" 
+//         frameborder="0" 
+//         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+//         referrerpolicy="strict-origin-when-cross-origin" 
+//         allowfullscreen
+//         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+//     ></iframe>
+// </div>
+// `;
 
     let v1 = new Video(`final.mp4`);
     previewContainer.appendChild(v1.domElement);

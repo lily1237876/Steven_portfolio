@@ -47,7 +47,7 @@ function createHTMLCb() {
 // </div>
 // `;
 
-    let v1 = new Video(`final.mp4`);
+    let v1 = new Video(`final_minimized.mp4`);
     previewContainer.appendChild(v1.domElement);
 
     let s1 = new SectionTitle('Introduction');

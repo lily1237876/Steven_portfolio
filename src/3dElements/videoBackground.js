@@ -58,7 +58,7 @@ let videoSources = [
     `${import.meta.env.BASE_URL}dora/dora.mp4`,
     `${import.meta.env.BASE_URL}arboretum/arboretum.mp4`,
     `${import.meta.env.BASE_URL}clothSimulation/cloth.mp4`,
-    `${import.meta.env.BASE_URL}bufferJS/ascii.mp4`,
+    `${import.meta.env.BASE_URL}bufferJS/4d_cube.mp4`,
     `${import.meta.env.BASE_URL}spatialMeasure/moon.mp4`,
 ];
 let videoTexture = null;

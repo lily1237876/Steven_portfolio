@@ -12,7 +12,7 @@ function startAsciiViewer() {
 
     // load video
     let videoPlane = new VideoPlane(
-        `${import.meta.env.BASE_URL}bufferJS/ascii.mp4`,
+        `${import.meta.env.BASE_URL}bufferJS/4d_cube.mp4`,
         1.5,
         {
             onLoad: (thisPlane) => {

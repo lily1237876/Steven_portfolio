@@ -57,7 +57,7 @@ function createHTMLCb() {
     previewContainer.appendChild(s3.domElement);
     let p3 = new Paragraph();
     previewContainer.appendChild(p3.domElement);
-    p3.addHTMLToNewLine('The spatial cursor is a double-layered circle object that travels in a 3D space, smoothly adjusting its orientation to align with mesh surfaces, allowing users to know the location and objects they’re hovering on. It runs on both AR and desktop platforms, and allows users in the same session to intuitively navigate and collaborate in 3D space.');
+    p3.addHTMLToNewLine('The spatial cursor is a double-layered circle object that travels in a 3D space, smoothly adjusting its orientation to align with mesh surfaces, allowing users to know the exact location and objects they’re hovering on. By reimagining the mouse cursor as a 3D element, users can <u><b>reach into the space and feel the object contours without physically touching them</u></b>. It runs on both AR and desktop platforms, and allows users in the same session to intuitively navigate and collaborate in 3D space.');
     let v3 = new Video(`final.mp4`);
     previewContainer.appendChild(v3.domElement);
 

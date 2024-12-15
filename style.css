@@ -6,7 +6,7 @@ body {
     font-weight: 100;
     background: black;
     text-shadow: 0 0 3px black;
-    color: white;
+    color: #cccccc;
 
     overflow-x: hidden;
     overflow-y: hidden;

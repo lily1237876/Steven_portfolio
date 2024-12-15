@@ -11,7 +11,7 @@ export class ClickableImage {
 
     // make a div with blur background, and an img element centered, and then click elsewhere on the blured div, remove this div and the img element
     setupEventListeners() {
-        this.domElement.addEventListener('pointerdown', () => {
+        this.domElement.addEventListener('pointerup', () => {
             let tempDiv = document.createElement('div');
             tempDiv.classList.add('temp-container-popup');
             document.body.appendChild(tempDiv);

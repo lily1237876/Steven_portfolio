@@ -16,7 +16,7 @@ export class TempBackButton {
         `;
         this.domElement.classList.add('temp-back-button');
         this.parent.appendChild(this.domElement);
-        this.domElement.addEventListener('pointerdown', () => {
+        this.domElement.addEventListener('pointerup', () => {
             if (this.isHomeButton) {
                 let carouselCategories = window.localStorage.getItem('carouselCategories');
                 let hashString = `#category=${carouselCategories}`;

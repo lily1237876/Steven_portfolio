@@ -36,7 +36,7 @@ const fsVideoPlaneSource = `
         vec4 pixelColor = texture(uRGBTexture, uv * uPixelRepeat) + 1.;
         // pixelColor += texture(uRGBTexture, uv * uPixelRepeat + uPixelOffset);
         vec4 color = videoColor * pixelColor;
-        color *= 0.2;
+        color *= 0.1;
         
         color *= vignette;
         
@@ -46,7 +46,6 @@ const fsVideoPlaneSource = `
 
 let rgbTexture = null;
 let videoPlane = null;
-let videoSource = null;
 
 function setupEventListeners() {
     window.addEventListener('resize', () => {
@@ -63,8 +62,11 @@ let videoSources = [
 ];
 let videoTexture = null;
 let videoIndex = 0;
+let lastVideoIndex = 0;
 
-function initVideo(idx) {
+function initVideo() {
+    videoIndex = Math.floor(Math.random() * videoSources.length);
+
     let videoElement = document.querySelector('#video-background');
     videoElement.autoplay = true;
     videoElement.muted = true;
@@ -80,19 +82,22 @@ function initVideo(idx) {
 
     videoElement.addEventListener('ended', () => {
         // console.log('video ended', videoSources[videoIndex]);
-        videoIndex = (videoIndex + 1) % videoSources.length;
-        changeVideo(videoIndex);
+        while (lastVideoIndex === videoIndex) {
+            videoIndex = Math.floor(Math.random() * videoSources.length);
+        }
+        changeVideo();
     });
 
-    videoElement.src = videoSources[idx];
+    videoElement.src = videoSources[videoIndex];
 }
 
-function changeVideo(idx) {
+function changeVideo() {
     if (videoTexture !== null) {
         videoTexture.dispose();
     }
     let videoElement = document.querySelector('#video-background');
-    videoElement.src = videoSources[idx];
+    videoElement.src = videoSources[videoIndex];
+    lastVideoIndex = videoIndex;
 }
 
 function loadRGBTexture() {
@@ -129,7 +134,7 @@ function init() {
     scene.add(videoPlane);
 
     loadRGBTexture();
-    initVideo(videoIndex);
+    initVideo();
 
     setupEventListeners();
 }

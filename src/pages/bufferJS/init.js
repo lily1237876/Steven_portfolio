@@ -1,9 +1,11 @@
 import * as THREE from "three";
 import Scene from "../../scene.js";
+import Intersects from "../../intersects.js";
 import {BoundingBox} from "../../3dElements/boundingBox.js";
 import {VideoPlane} from "../../3dElements/videoPlane.js";
 
 let asciiGroup = null;
+let ASCII_LABEL = 'bufferJS';
 
 function startAsciiViewer() {
     let scene = Scene.getInternals().scene;
@@ -18,6 +20,13 @@ function startAsciiViewer() {
             onLoad: (thisPlane) => {
                 asciiGroup.add(thisPlane.mesh);
 
+                Scene.traverseGroupToAddLabel(thisPlane.mesh, ASCII_LABEL);
+                Intersects.add(ASCII_LABEL, thisPlane.mesh);
+
+                Intersects.addClickCb(ASCII_LABEL, () => {
+                    window.location.href = `${import.meta.env.BASE_URL}bufferJS/index.html`;
+                });
+
                 // add bounding box
                 let boundingBox = new BoundingBox(
                     new THREE.Vector3(1, 1 / thisPlane.aspect, 0.2),
@@ -25,7 +34,7 @@ function startAsciiViewer() {
                     'Buffer.js',
                     'A retro-inspired ASCII render engine, in pure JavaScript.',
                     'Feeling Nostalgic......',
-                    'Computer terminals and game consoles. How cool. I didn\'t know how exactly they work, but at least I made one that looks like \'em. Users can draw or use simple code to control motion graphics, as if they\'re rendered on an 80s monitor.'
+                    'Use simple code to create motion graphics, as if they\'re rendered on an 80s monitor.'
                 );
                 let boundingBoxMesh = boundingBox.boxMesh;
                 let boundingBoxTextObjs = boundingBox.textObjs;

@@ -15,7 +15,7 @@ function startGSViewerProject() {
     // load video
     let videoPlane = new VideoPlane(
         `${import.meta.env.BASE_URL}gsViewer/gs_viewer_final.mp4`,
-        1.5,
+        1.2,
         {
             onLoad: (thisPlane) => {
                 gsGroup.add(thisPlane.mesh);
@@ -31,7 +31,7 @@ function startGSViewerProject() {
 
                 // add bounding box
                 let boundingBox = new BoundingBox(
-                    new THREE.Vector3(1.6, 1.6 / thisPlane.aspect, 0.2),
+                    new THREE.Vector3(1.3, 1.3 / thisPlane.aspect, 0.2),
                     new THREE.Vector3(),
                     'Customized 3D Gaussian Splatting viewer',
                     '',

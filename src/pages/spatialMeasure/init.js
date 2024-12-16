@@ -15,7 +15,7 @@ function startMoonMeasureViewer() {
     // load video
     let videoPlane = new VideoPlane(
         `${import.meta.env.BASE_URL}spatialMeasure/moon.mp4`,
-        1.5,
+        1.2,
         {
             onLoad: (thisPlane) => {
                 moonGroup.add(thisPlane.mesh);
@@ -29,7 +29,7 @@ function startMoonMeasureViewer() {
 
                 // add bounding box
                 let boundingBox = new BoundingBox(
-                    new THREE.Vector3(1.6, 1.6 / thisPlane.aspect, 0.2),
+                    new THREE.Vector3(1.3, 1.3 / thisPlane.aspect, 0.2),
                     new THREE.Vector3(),
                     'Spatial Measurement Tool',
                     'Lunar Surface Geospatial Analysis',

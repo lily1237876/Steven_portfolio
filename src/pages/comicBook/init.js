@@ -1,8 +1,11 @@
 import * as THREE from "three";
 import Scene from "../../scene.js";
+import Intersects from '../../intersects.js';
 import {vsComicBookSource, fsComicBookSource} from "./shader.js";
 import {mix, remap, remapCurveEaseIn2, remapCurveEaseOut2, smoothstep} from "../../mathUtils.js";
 import {BoundingBox} from "../../3dElements/boundingBox.js";
+
+let COMIC_LABEL = 'comicBook';
 
 let geometry, material
 let comicBookObjs;
@@ -73,6 +76,17 @@ async function startComicBook() {
     comicBookObjs.rotation.x = Math.PI / 3;
     let scaleFactor = 0.6;
     comicBookObjs.scale.set(scaleFactor, scaleFactor, scaleFactor);
+
+    let invisibleGeo = new THREE.BoxGeometry(1.2, 1.2 / 1.6, 1.2 / 1.5);
+    let invisibleMat = new THREE.MeshBasicMaterial({color: 0x0000ff});
+    let invisibleMesh = new THREE.Mesh(invisibleGeo, invisibleMat); // this mesh is only for mouse intersects, b/c checking mouse intersect on hundreds of meshes is too expensive
+    invisibleMesh.visible = false;
+    comicBookGroup.add(invisibleMesh);
+    Scene.traverseGroupToAddLabel(invisibleMesh, COMIC_LABEL);
+    Intersects.add(COMIC_LABEL, invisibleMesh);
+    Intersects.addClickCb(COMIC_LABEL, () => {
+        window.open('https://include-steve-kx.github.io/GLSL-comic-book-shader/', '_blank', 'noopener noreferrer');
+    });
 
     let idx = 1;
     for (let i = -(pageCount - 1) / 2; i <= (pageCount - 1) / 2; i++) {

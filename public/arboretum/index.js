@@ -2,7 +2,6 @@ import { TempBackButton } from "../htmlElements/backButton.js";
 import { GalleryGrid } from "../htmlElements/galleryGrid.js";
 import { Paragraph } from "../htmlElements/paragraph.js";
 import { Video } from "../htmlElements/video.js";
-import { SectionTitle } from "../htmlElements/sectionTitle.js";
 import { Abstract } from "../htmlElements/abstract.js";
 import { PageTitle } from "../htmlElements/pageTitle.js";
 import { Quote } from "../htmlElements/quote.js";
@@ -23,7 +22,7 @@ function createHTMLCb() {
     let abstract = new Abstract();
     previewContainer.appendChild(abstract.domElement);
     abstract.addAbstractItem('Time <br> 2021-2022');
-    abstract.addAbstractItem('Type <br> Experiment');
+    abstract.addAbstractItem('Type <br> Game');
     abstract.addAbstractItem('Role <br> Game Developer (Unreal Engine 5) <br> 3D Graphics & Shader Developer');
 
     // quote

@@ -86,7 +86,7 @@ function createHTMLCb() {
 
     let p4 = new Paragraph();
     previewContainer.appendChild(p4.domElement);
-    p4.addHTMLToNewLine('I reused my interactive cloth project (上链接). The algorithm simulates a cloth influenced by several wind forces directed towards the center, gradually wrapping around the object of interest, and computes the volume of the cloth.');
+    p4.addHTMLToNewLine('I reused my <a class=\'temp-link\' href=\'https://include-steve-kx.github.io/portfolio/clothSimulation/index.html\' target="_blank" rel="noopener noreferrer">interactive cloth project</a>. The algorithm simulates a cloth influenced by several wind forces directed towards the center, gradually wrapping around the object of interest, and computes the volume of the cloth.');
 
     let v2 = new Video(`volume_prototype.mp4`);
     previewContainer.appendChild(v2.domElement);

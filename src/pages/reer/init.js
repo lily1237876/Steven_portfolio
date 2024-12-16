@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import Scene from "../../scene.js";
+import Intersects from '../../intersects.js';
 import {drawPoints, scrollCb_draw_points} from "./draw_points.js";
 import {drawFullMesh, scrollCb_draw_full_mesh} from "./draw_full_mesh.js";
 import {drawExplosion, scrollCb_draw_explosion} from "./draw_explosion.js";
@@ -9,6 +10,7 @@ import {BoundingBox} from "../../3dElements/boundingBox.js";
 
 let bigGroup = null; // everything, including chairGroup and bounding box
 let chairGroup = null; // only includes 3 chair visualization groups
+let CHAIR_LABEL = 'reer';
 let pointCloud = null;
 let fullMeshGroup = null;
 let explosionGroup = null;
@@ -36,6 +38,18 @@ function startChairViewer() {
     pointCloud = drawPoints(chairGroup);
     fullMeshGroup = drawFullMesh(chairGroup);
     explosionGroup = drawExplosion(chairGroup);
+
+    // add mouse intersect
+    let invisibleGeo = new THREE.BoxGeometry(1, 1, 1);
+    let invisibleMat = new THREE.MeshBasicMaterial({color: 0x0000ff});
+    let invisibleMesh = new THREE.Mesh(invisibleGeo, invisibleMat); // this mesh is only for mouse intersects, b/c checking mouse intersect on hundreds of meshes is too expensive
+    invisibleMesh.visible = false;
+    chairGroup.add(invisibleMesh);
+    Scene.traverseGroupToAddLabel(invisibleMesh, CHAIR_LABEL);
+    Intersects.add(CHAIR_LABEL, invisibleMesh);
+    Intersects.addClickCb(CHAIR_LABEL, () => {
+        window.open('https://www.reer.co', '_blank', 'noopener noreferrer');
+    });
 
     // add bounding box
     let chairBoundingBox = new BoundingBox(

@@ -81,12 +81,16 @@ function startCloth() {
     Scene.traverseGroupToAddLabel(cloth, CLOTH_LABEL);
     Intersects.add(CLOTH_LABEL, cloth);
 
+    Intersects.addClickCb(CLOTH_LABEL, () => {
+        window.location.href = `${import.meta.env.BASE_URL}clothSimulation/index.html`;
+    });
+
     let clothBoundingBox = new BoundingBox(
         new THREE.Vector3(1, 1, 0.2),
         new THREE.Vector3(),
-        'Interactive Cloth ?!?!',
+        'Interactive Cloth',
         'Various cloth simulation experiments, on CPU and GPU',
-        'Move mouse🖱️/finger👆 across the cloth to see the effect👀',
+        'Move mouse🖱️/finger👆 across the cloth to to make ripples🌊',
         'Cloth simulation on CPU is easy. But can you do it on GPU? Guess what? Now you\'re looking at one! I\'ve done several experiments / variations of it: combining it with AI hand detection, shrink-wrapping it around different objects, and computing the volume enclosed.'
     );
     let clothBoundingBoxMesh = clothBoundingBox.boxMesh;

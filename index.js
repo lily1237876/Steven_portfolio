@@ -344,7 +344,7 @@ async function init() {
 
 let centerIndex = 0;
 let centerOffset = 0;
-let carouselGap = 1.8;
+let carouselGap = 1.6;
 
 let a_big_number = 420;
 function makeCarousel() {

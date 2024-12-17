@@ -1,5 +1,6 @@
 import { Vector2, Raycaster } from "three";
 import Scene from "./scene.js";
+import { getCarouselMovingState } from "../index.js";
 
 class Intersects {
     constructor() {
@@ -45,6 +46,8 @@ class Intersects {
     }
 
     handlePointerUp(e) {
+        if (getCarouselMovingState()) return;
+
         this.pointer.x = ( e.clientX / window.innerWidth ) * 2 - 1;
         this.pointer.y = - ( e.clientY / window.innerHeight ) * 2 + 1;
 

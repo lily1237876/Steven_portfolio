@@ -20,6 +20,7 @@ import GSViewerProject from './src/pages/gsViewer/init.js';
 let camera, scene, renderer, controls;
 let pointer, raycaster;
 let t = 0;
+let isCarouselMoving = false;
 
 function setupEventListeners() {
 
@@ -60,6 +61,7 @@ function setupEventListeners() {
 
     let wheelId = 0;
     let MIN_DELTA = 1e-7;
+    let MIN_DELTA_MOVING = 1e-3;
     canvasParentDiv.addEventListener('wheel', (e) => {
 
         let delta = clamp(-e.deltaY, -5, 5) / 100;
@@ -116,6 +118,8 @@ function setupEventListeners() {
     }
 
     function handleTouchMove(event) {
+        isCarouselMoving = true;
+
         event.stopPropagation();
         const touch = event.touches[0];
         const currentY = touch.clientY;
@@ -147,6 +151,9 @@ function setupEventListeners() {
         touchEndId = setInterval(() => {
             delta *= 0.95;
             t += delta;
+            if (Math.abs(delta) < MIN_DELTA_MOVING) {
+                isCarouselMoving = false;
+            }
             if (Math.abs(delta) < MIN_DELTA) {
                 delta = 0;
                 clearInterval(touchEndId);
@@ -344,3 +351,7 @@ window.onload = function() {
 
 // FPS counter
 // (function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
+
+export function getCarouselMovingState() {
+    return isCarouselMoving;
+}

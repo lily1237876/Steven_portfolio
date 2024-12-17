@@ -62,7 +62,6 @@ async function startSplatViewer() {
     // console.log(splatData.length / rowLength, downsample);
 
     // const worker = new Worker(new URL('./worker.js', import.meta.url), {
-    console.log(import.meta.url);
     const worker = new Worker(new URL('./worker.js', import.meta.url), {
         type: 'module',
     })

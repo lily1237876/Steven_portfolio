@@ -34,10 +34,8 @@ function setupEventListeners() {
     // add about button listener
     let aboutMeButton = document.querySelector('#page-about-button-container');
     aboutMeButton.addEventListener('pointerup', () => {
-        // console.log(import.meta.url);
-        // console.log(import.meta.env);
-        // console.log(import.meta.env.BASE_URL);
-        // console.log(`${import.meta.url}/../about/index.html`);
+        // when navigating from root folder files to /public folder files, use import.meta.env.BASE_URL
+        // otherwise, use import.meta.url, just like in the about page
         window.location.href = `${import.meta.env.BASE_URL}about/index.html`;
     })
 
@@ -57,6 +55,8 @@ function setupEventListeners() {
         //     Scene.updateCameraAndControls(camPos, camTargetPos);
         // }
     })
+
+    // ---------- handle mouse scroll ---------- //
 
     let wheelId = 0;
     let MIN_DELTA = 1e-7;
@@ -92,6 +92,8 @@ function setupEventListeners() {
         //     VideoBackground.changeVideo(1);
         // }
     })
+
+    // ---------- handle touch scroll ---------- //
 
     let startY = 0; // Initial touch Y position
     let startTime = 0; // Time when touch starts
@@ -159,7 +161,7 @@ function setupEventListeners() {
     canvasParentDiv.addEventListener('touchend', handleTouchEnd);
 
 
-    // handle hash changes
+    // ---------- handle hash changes ---------- //
     setInterval(() => {
         applyFilters();
     }, 1000);

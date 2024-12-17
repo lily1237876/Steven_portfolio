@@ -34,7 +34,11 @@ function setupEventListeners() {
     // add about button listener
     let aboutMeButton = document.querySelector('#page-about-button-container');
     aboutMeButton.addEventListener('pointerup', () => {
-        window.location.href = `${import.meta.url}/../about/index.html`;
+        // console.log(import.meta.url);
+        // console.log(import.meta.env);
+        // console.log(import.meta.env.BASE_URL);
+        // console.log(`${import.meta.url}/../about/index.html`);
+        window.location.href = `${import.meta.env.BASE_URL}about/index.html`;
     })
 
     let canvasParentDiv = document.querySelector('#three-js-canvas');

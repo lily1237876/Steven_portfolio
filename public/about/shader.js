@@ -193,6 +193,7 @@ void main () {
     // 0. --> 1.
     // color: * 0.0001
     // alpha: * 0.0001
+
     float animateOffset = smoothstep(0.9, 1., uAnimateTime);
     float colorOffset = mix(1., 0., animateOffset);
     float alphaOffset = mix(1., 0., animateOffset);

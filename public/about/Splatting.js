@@ -1,6 +1,5 @@
 import { vertexShaderSource, fragmentShaderSource } from "./shader.js";
 import { getProjectionMatrix, getViewMatrix, multiply4, invert4, rotate4, translate4, projectionMatrixFrom } from "./gsMath.js";
-import { iPhoneVerticalFOV } from "./constants.js";
 
 let camera = {
     id: 0,
@@ -18,13 +17,6 @@ let camera = {
     fy: 1164.6601287484507,
     fx: 1159.5880733038064,
 };
-
-let defaultViewMatrix = [
-    0.47, 0.04, 0.88, 0, -0.11, 0.99, 0.02, 0, -0.88, -0.11, 0.47, 0, 0.07,
-    0.03, 6.55, 1,
-];
-
-let viewMatrix = defaultViewMatrix;
 
 let cameraMatrix = [1, 0, 0, 0,
                     0, 1, 0, 0,
@@ -51,7 +43,8 @@ async function startSplatViewer() {
     //     params.get("url") || "train.splat",
     //     "https://huggingface.co/cakewalk/splat-data/resolve/main/",
     // );
-    let loc = `${import.meta.env.BASE_URL}models/me.splat`;
+    // let loc = `${import.meta.env.BASE_URL}models/me.splat`;
+    let loc = `../models/me.splat`;
     const req = await fetch(loc, {
         mode: "cors", // no-cors, *cors, same-origin
         credentials: "omit", // include, *same-origin, omit
@@ -68,10 +61,11 @@ async function startSplatViewer() {
         splatData.length / rowLength > 500000 ? 1 : 1 / devicePixelRatio;
     // console.log(splatData.length / rowLength, downsample);
 
+    // const worker = new Worker(new URL('./worker.js', import.meta.url), {
+    console.log(import.meta.url);
     const worker = new Worker(new URL('./worker.js', import.meta.url), {
         type: 'module',
     })
-    // console.log(worker);
 
     const canvas = document.getElementById("gs-canvas");
     const fps = document.getElementById("fps");
@@ -150,7 +144,6 @@ async function startSplatViewer() {
 
     const resize = () => {
 
-        // projectionMatrix = projectionMatrixFrom(iPhoneVerticalFOV, window.innerWidth / window.innerHeight, 10, 300000);
         projectionMatrix = projectionMatrixFrom(70, window.innerWidth / window.innerHeight, 10, 300000);
 
         // gl.uniform2fv(u_focal, new Float32Array([camera.fx, camera.fy]));
@@ -249,6 +242,11 @@ async function startSplatViewer() {
         }
         let uTime = (now - startTime) / 1000;
 
+        // cameraMatrix = [0.7244766986499268, 2.7755575615628914e-17, 0.6892992913918474, 0,
+        //                 0.3065628944625729, 0.8956568897374911, -0.32220789500645863, 0,
+        //                 -0.6173756594262787, 0.44474569797330665, 0.648882546600079, 0,
+        //                 -1.3492676304522955, 0.9719867715807667, 1.4181255816054499, 1];
+
         const flipMatrix =
             [1, 0, 0, 0,
             0,-1, 0, 0,
@@ -258,7 +256,7 @@ async function startSplatViewer() {
         cameraMatrix = multiply4(cameraMatrix, flipMatrix);
 
         let actualViewMatrix = invert4(cameraMatrix);
-        const viewProj = multiply4(projectionMatrix, actualViewMatrix);
+        let viewProj = multiply4(projectionMatrix, actualViewMatrix);
         worker.postMessage({ view: viewProj });
 
         const currentFps = 1000 / (now - lastFrame) || 0;

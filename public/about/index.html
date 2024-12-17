@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<title>About me</title>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"
+		/>
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta
+			name="apple-mobile-web-app-status-bar-style"
+			content="black-translucent"
+		/>
+		<link rel="stylesheet" href="../htmlElements/style.css">
+        <script type="importmap">
+            {
+              "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.171.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.171.0/examples/jsm/"
+              }
+            }
+        </script>
+		<script src="index.js" type="module"></script>
+	</head>
+	<body>
+        <canvas id="gs-canvas"></canvas>
+        <div id="page-about-me-container">
+            <div id="page-about-me-drawer">
+                <div class="page-about-me-title">Hi👋, it's me, Steve.</div>
+                <div class="page-about-me-description">
+                    Here's a couple of things about me:
+                </div>
+                <div class="page-about-me-description">
+                    <div class="page-about-me-section">My current missions are:</div>
+                    1. Building softwares to bridge the gap between 2D and 3D experiences; <br>
+                    2. Creating unique visual paradoxes and illusions with 3D graphics and shaders; <br>
+                    3. Developing a Spatial AI that collaborates with human, to solve spatial problems. <br>
+                </div>
+                <div class="page-about-me-description">
+                    <div class="page-about-me-section">Some fun facts about me:</div>
+                    1. My favorite artists are M.C. Escher, David Hockney, and Stephen Shore.<br>
+                    2. I currently have 15 tattoos. My favorite one is a 3D-axes. <br>
+                    3. I customize everything with a bic white-out pen. <br>
+                    4. I love collecting old Macbooks. <br>
+                    5. I used to sing in a band. <br>
+                </div>
+                <div class="page-about-me-description">
+                    <div class="page-about-me-section">Check out my other social links:</div>
+                    <div style="padding-top: 2px;">
+                        <span class="page-about-me-labels" style="background-color: purple;"><a href="https://github.com/include-steve-kx?tab=repositories" target="_blank" rel="noopener noreferrer">Github</a></span>
+                        <span class="page-about-me-labels" style="background-color: orangered;"><a href="https://www.instagram.com/datslimitless" target="_blank" rel="noopener noreferrer">Instagram</a></span>
+                        <span class="page-about-me-labels" style="background-color: royalblue;"><a href="https://www.linkedin.com/in/steve-xie-33a012147/" target="_blank" rel="noopener noreferrer">LinkedIn</a></span>
+                    </div>
+                </div>
+            </div>
+            <button id="page-about-me-drawer-button"><</button>
+        </div>
+
+        <div id="page-projects-button-container">
+            Projects
+        </div>
+	</body>
+</html>

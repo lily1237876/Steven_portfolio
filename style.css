@@ -5,22 +5,11 @@ body {
     font-family: monospace;
     font-weight: 100;
     background: black;
-    text-shadow: 0 0 3px black;
     color: #cccccc;
 
     overflow-x: hidden;
     overflow-y: hidden;
     overscroll-behavior: none;
-}
-
-#gs-canvas {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /*touch-action: none;*/
 }
 
 #three-js-canvas {
@@ -55,15 +44,35 @@ body {
 
 #page-overview-container {
     position: fixed;
+    left: 0;
+    top: 0;
     padding: max(2%, 20px);
-    width: calc(100vw - 2 * max(2%, 20px));
+    max-width: max(40%, 400px);
     gap: 15px;
     z-index: 10;
 
     display: flex;
     flex-direction: column;
+}
 
+#page-about-button-container {
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin: 20px;
     max-width: max(40%, 400px);
+    z-index: 10;
+    font-size: 3vh;
+    cursor: pointer;
+
+    background-color: transparent;
+    color: #cccccc;
+    transition: all 0.2s ease-out;
+}
+
+#page-about-button-container:hover {
+    background-color: #cccccc;
+    color: #232323;
 }
 
 #page-overview-title {
@@ -81,9 +90,11 @@ body {
 }
 
 .page-overview-categories {
+    display: inline-block; /* this is important for the spans to not run into other elements */
+
     box-sizing: border-box;
     padding: 3px;
-    border: 1px solid red;
+    border: 1px solid yellow;
     border-radius: 3px;
     background-color: transparent;
     cursor: pointer;
@@ -92,9 +103,35 @@ body {
 }
 
 .page-overview-categories:hover {
-    background-color: red;
+    background-color: yellow;
+    color: black;
 }
 
 .page-overview-categories-on {
-    background-color: red;
+    background-color: yellow;
+    color: black;
+}
+
+
+/* todo Steve: this is repeated code as public/htmlElements/style.css. Figure out a way to reuse that piece of code.
+right now the popup element in root index.js and about page index.js both uses Popup elements. But cannot share the same style.css */
+.temp-pop-up {
+    position: fixed;
+    left: 50%;
+    bottom: 20vh;
+    font-size: 2vh;
+    width: fit-content;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+
+    z-index: 99;
+    transform: translateX(-50%);
+    opacity: 1;
+    transition: all 0.5s ease-out;
+}
+
+.temp-pop-up-end {
+    opacity: 0;
+    transform: translateX(-50%) translateY(200%);
 }

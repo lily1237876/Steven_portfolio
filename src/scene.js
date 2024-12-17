@@ -2,7 +2,6 @@ import * as THREE from "three";
 import {CSS3DRenderer} from "../lib/CSS3DRenderer.js";
 import {OrbitControls} from "three/addons";
 import Constants from './constants.js';
-import SplatViewer from "./splatting/Splatting.js";
 
 let camera, scene, renderer, controls;
 let cssRenderer;
@@ -47,8 +46,6 @@ function init() {
     camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 1000);
     camera.position.copy(camPosStart);
     camera.lookAt(Constants.camTargetPosStart);
-    // camera.position.set(2, 2, 2);
-    // camera.lookAt(0, 0, 0);
     camera.updateMatrixWorld(true);
 
     // lighting
@@ -107,8 +104,6 @@ function animate() {
     requestAnimationFrame(animate);
 
     camera.updateMatrixWorld(true);
-    let m = camera.matrixWorld.clone().elements;
-    SplatViewer.updateCameraMatrix(m);
 
     renderer.render(scene, camera);
     cssRenderer.render(scene, camera);

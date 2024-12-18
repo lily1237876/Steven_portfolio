@@ -1,5 +1,3 @@
-
-https://github.com/user-attachments/assets/a1c6da65-860f-4a44-974f-625be1257160
 ## Welcome to my new Portfolio
 
 ## Project Page

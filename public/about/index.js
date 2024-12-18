@@ -106,9 +106,10 @@ function setupEventListeners() {
             gl.uniform1f(gl.getUniformLocation(program, "uAnimateTime"), t);
         }
 
-        // t += clamp(e.deltaY, -5, 5) / 1000;
         t = clamp(t, tStart, tEnd);
-        console.log(t);
+        if (t === 1) {
+            backToProjectsButton.dispatchEvent(new Event('pointerup'));
+        }
     }
 
     // ---------- handle mouse scroll ---------- //

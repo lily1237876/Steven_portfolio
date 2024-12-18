@@ -164,7 +164,7 @@ function createHTMLCb() {
     let i2 = new ClickableImage(`togetherness.png`);
     previewContainer.appendChild(i2.domElement);
 
-    let s15 = new SectionTitle('Togetherness');
+    let s15 = new SectionTitle('Achievements');
     previewContainer.appendChild(s15.domElement);
     let p15 = new Paragraph();
     previewContainer.appendChild(p15.domElement);

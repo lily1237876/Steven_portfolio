@@ -26,7 +26,7 @@ function setupEventListeners() {
 
     // add pop up
     if (!window.localStorage.getItem('isProjectIntroDone')) {
-        let popUp = new Popup('Mouse wheel🖱️ / scroll finger👆 up&uarr; and down&darr; to scroll through projects', 6000);
+        let popUp = new Popup('Mouse wheel🖱️ / scroll finger👆 &larr;left and right&rarr; to scroll through projects', 6000);
         popUp.domElement.style.backgroundColor = '#cccccc';
         popUp.domElement.style.color = '#232323';
         window.localStorage.setItem('isProjectIntroDone', true);
@@ -108,8 +108,8 @@ function setupEventListeners() {
     function handleTouchStart(event) {
         event.stopPropagation();
         const touch = event.touches[0];
-        startY = touch.clientY;
-        lastY = touch.clientY;
+        startY = touch.clientX;
+        lastY = touch.clientX;
         startTime = event.timeStamp;
         lastTime = event.timeStamp;
 
@@ -122,7 +122,7 @@ function setupEventListeners() {
 
         event.stopPropagation();
         const touch = event.touches[0];
-        const currentY = touch.clientY;
+        const currentY = touch.clientX;
         const currentTime = event.timeStamp;
 
         const deltaY = lastY - currentY; // Difference in Y position
@@ -174,8 +174,9 @@ function setupEventListeners() {
     }, 1000);
     window.addEventListener("hashchange", applyFilters);
 
-    // update hash filters on page load
-    updateFilters();
+    // init and apply hash filters on page load
+    initFilters();
+    applyFilters();
 
     let categoryButtons = Array.from(document.querySelectorAll('.page-overview-categories'));
     categoryButtons.forEach((button) => {
@@ -211,6 +212,13 @@ function setupEventListeners() {
     })
 }
 
+function initFilters() {
+    let carouselCategories = window.localStorage.getItem('carouselCategories');
+    if (!carouselCategories) return;
+    let hashString = `category=${carouselCategories}`;
+    window.location.hash = hashString;
+}
+
 function updateFilters() {
     let currentHash = window.location.hash.slice(1);
     let params = new URLSearchParams(currentHash);
@@ -229,9 +237,13 @@ function applyFilters() {
     updateFilters();
 
     if (!carouselCategory) { // show everything
-        if (carouselArrRest.length === 0) return;
+        if (carouselArrRest.length === 0) {
+            makeCarousel();
+            return;
+        }
         carouselArr = [...carouselArr, ...carouselArrRest];
         carouselArrRest = [];
+        makeCarousel();
         return;
     }
 
@@ -240,14 +252,15 @@ function applyFilters() {
         if (carouselCategories.includes(info[1])) continue;
         carouselArrRest.push(info);
         carouselArr.splice(i, 1);
+        i--;
     }
     for (let i = 0; i < carouselArrRest.length; i++) {
         let info = carouselArrRest[i];
         if (!carouselCategories.includes(info[1])) continue;
         carouselArr.push(info);
         carouselArrRest.splice(i, 1);
+        i--;
     }
-    // console.log(carouselArr, carouselArrRest);
     makeCarousel();
 }
 
@@ -284,11 +297,11 @@ async function init() {
     carouselArr.push([WarpedReality.startWarpedRealityViewer(), 'computational-art']);
     DoraViewer.startDoraViewer().then(dora => {
         carouselArr.push([dora, 'game']);
-        makeCarousel();
+        applyFilters();
     });
     ComicBookViewer.startComicBook().then(comicBook => {
         carouselArr.push([comicBook, 'computational-art']);
-        makeCarousel();
+        applyFilters();
     });
     carouselArr.push([ClothViewer.startCloth(), 'computational-art']);
     carouselArr.push([ArboretumViewer.startArboretumViewer(), 'game']);

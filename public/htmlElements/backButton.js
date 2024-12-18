@@ -18,9 +18,10 @@ export class TempBackButton {
         this.parent.appendChild(this.domElement);
         this.domElement.addEventListener('pointerup', () => {
             if (this.isHomeButton) {
-                let carouselCategories = window.localStorage.getItem('carouselCategories');
-                let hashString = `#category=${carouselCategories}`;
-                window.location.href = `../${hashString}`;
+                // let carouselCategories = window.localStorage.getItem('carouselCategories');
+                // let hashString = `#category=${carouselCategories}`;
+                // window.location.href = `../${hashString}`;
+                window.location.href = `../`;
                 return;
             }
             this.parent.remove();

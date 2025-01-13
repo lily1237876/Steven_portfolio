@@ -39,7 +39,7 @@ function createHTMLCb() {
     previewContainer.appendChild(s1.domElement);
     let p1 = new Paragraph();
     previewContainer.appendChild(p1.domElement);
-    p1.addHTMLToNewLine('I’m always fascinated about artworks that defy the reality. This fascination peaked when I saw David Hockney and M.C. Escher’s work, where lights are distorted and reality is warped --- they look like they were captured from different perspectives and stitched together in one frame. I came across a book analyzing the ideas behind M.C. Escher’s drawing, and came to realize that both artists\' drawing techniques is a lot similar to the medieval artists --- they don’t follow the principals of perspectives. Their paintings often have multiple vanishing points, and they don’t converge together. I was tempted to create something like this on my computer.');
+    p1.addHTMLToNewLine('I’m always fascinated about artworks that defy the reality. This fascination peaked when I saw David Hockney and M.C. Escher’s work, where lights are distorted and reality is warped --- they look like they were captured from different perspectives and stitched together in one frame. I came across a book analyzing the ideas behind M.C. Escher’s drawing, and came to realize that his drawing techniques is similar to the medieval artists --- they don’t follow the principals of perspectives. The paintings often have multiple vanishing points, and they don’t converge together. I was tempted to create something like this on my computer.');
 
     let g1 = new GalleryGrid();
     previewContainer.appendChild(g1.domElement);

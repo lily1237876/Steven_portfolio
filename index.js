@@ -15,6 +15,7 @@ import ArboretumViewer from './src/pages/arboretum/init.js';
 import WarpedReality from './src/pages/warpedReality/init.js';
 import SpatialCursorViewer from './src/pages/spatialCursor/init.js';
 import GSViewerProject from './src/pages/gsViewer/init.js';
+import SpatialAIProject from './src/pages/spatialAI/init.js';
 
 
 let camera, scene, renderer, controls;
@@ -309,6 +310,7 @@ async function init() {
     carouselArr.push([SpatialCursorViewer.startSpatialCursorViewer(), 'spatial-interface']);
     carouselArr.push([MoonMeasureViewer.startMoonMeasureViewer(), 'spatial-interface']);
     carouselArr.push([GSViewerProject.startGSViewerProject(), 'spatial-interface']);
+    carouselArr.push([SpatialAIProject.startSpatialAIViewer(), 'spatial-interface']);
     carouselArr.push([ChairViewer.startChairViewer(), 'client']);
 
     // currently the projects might be too close to each other

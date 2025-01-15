@@ -28,6 +28,8 @@ export class GalleryGrid {
 
     #addImageElement(src) {
         let imageElement = new ClickableImage(src).domElement;
+        imageElement.style.width = `max(min(100%, ${100 / this.columnCount}vw), 100px)`;
+        console.log(imageElement, imageElement.style.width);
         this.domElement.appendChild(imageElement);
     }
 
@@ -38,6 +40,7 @@ export class GalleryGrid {
 
     #addVideoElement(src) {
         let videoElement = new Video(src).domElement;
+        videoElement.style.width = `width: max(min(100%, ${100 / this.columnCount}vw), 100px)`;
         this.domElement.appendChild(videoElement);
     }
 

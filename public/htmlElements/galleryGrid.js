@@ -28,8 +28,9 @@ export class GalleryGrid {
 
     #addImageElement(src) {
         let imageElement = new ClickableImage(src).domElement;
-        imageElement.style.width = `max(min(100%, ${100 / this.columnCount}vw), 100px)`;
-        console.log(imageElement, imageElement.style.width);
+        // imageElement.style.width = `max(min(100%, ${100 / this.columnCount}vw), 100px)`;
+        imageElement.style.width = `min(100%, ${100 / this.columnCount}vw)`;
+        imageElement.style.maxHeight = `min(100%, ${100 / this.columnCount}vh)`;
         this.domElement.appendChild(imageElement);
     }
 
@@ -40,7 +41,9 @@ export class GalleryGrid {
 
     #addVideoElement(src) {
         let videoElement = new Video(src).domElement;
-        videoElement.style.width = `width: max(min(100%, ${100 / this.columnCount}vw), 100px)`;
+        // videoElement.style.width = `max(min(100%, ${100 / this.columnCount}vw), 100px)`;
+        videoElement.style.width = `min(100%, ${100 / this.columnCount}vw)`;
+        videoElement.style.maxHeight = `min(100%, ${100 / this.columnCount}vh)`;
         this.domElement.appendChild(videoElement);
     }
 

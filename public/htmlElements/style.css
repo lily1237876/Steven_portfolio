@@ -197,8 +197,10 @@ body {
 
 .temp-img {
     object-fit: contain;
-    width: max(min(100%, 50vw), 100px);
-    max-height: max(min(100%, 50vh), 100px);
+    /* width: max(min(100%, 50vw), 100px);
+    max-height: max(min(100%, 50vh), 100px); */
+    width: min(100%, 50vw);
+    max-height: min(100%, 50vh);
 
     cursor: pointer;
 }
